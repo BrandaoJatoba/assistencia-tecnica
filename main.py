@@ -1,5 +1,3 @@
-class Assistencia:
-    listOfClients = []
-    listOfTech = []
-    listOfOrdemServico = []
-    
+
+if __name__ == "__main__":
+    pass

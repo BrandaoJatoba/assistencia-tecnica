@@ -7,3 +7,5 @@ class OrdemServico:
         self.__status = status
         self.__log = []
         pass
+
+    #???????????
