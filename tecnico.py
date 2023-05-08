@@ -1,3 +1,5 @@
+import especialidade
+
 class Tecnico:
     def __init__(self, nome, matricula, especialidade) -> None:
         self.__nome = nome
