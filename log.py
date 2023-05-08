@@ -1,7 +1,9 @@
+import datetime as dt
+
 class Log:
-    def __init__(self, id, data, os, comentario) -> None:
+    def __init__(self, id, timestamp:dt.datetime, os, comentario) -> None:
         self.__id = id
-        self.__data = data
+        self.__timestamp = timestamp
         self.__os = os
         self.__comentario = comentario
         pass
@@ -11,8 +13,8 @@ class Log:
         return self.__id
 
     @property
-    def data(self):
-        return self.__data
+    def timestamp(self):
+        return self.__timestamp
 
     @property
     def os(self):
@@ -27,9 +29,9 @@ class Log:
         self.__id = id
         pass
 
-    @data.setter
-    def data(self, data):
-        self.__data = data
+    @timestamp.setter
+    def timestamp(self, timestamp:dt.datetime):
+        self.__timestamp = timestamp
         pass
 
     @os.setter
