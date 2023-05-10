@@ -10,3 +10,4 @@ Classes Previstas
 - Cliente
 - Tecnico
 - Log
+- Enums(status, especialidade)
