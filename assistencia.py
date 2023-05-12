@@ -3,3 +3,5 @@ class Assistencia:
     listOfTech = []
     listOfOrdemServico = []
     
+
+'Isso é um teste!'
