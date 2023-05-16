@@ -1,4 +1,10 @@
+import os
+
 class Cliente:
+
+    diretorio = os.path.dirname(__file__)
+    caminhoRelativo = "/bd/clientes.txt"
+    enderecoArquivo = os.path.join(diretorio, caminhoRelativo)
 
     def __init__(self, nome, cpf, telefone, equipamento) -> None:
         self.__nome = nome
@@ -41,3 +47,10 @@ class Cliente:
     def addEquipamento(self, equipamentoNovo):
         self.__equipamento.append(equipamentoNovo)
         pass
+
+    def carregarClientes(self):
+        with open(Cliente.enderecoArquivo, "r") as clientes:
+            # Parse TEXT from DataBase
+            pass
+        pass
+            
