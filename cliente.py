@@ -1,3 +1,5 @@
+import csv
+
 class Cliente:
 
     def __init__(self, nome, cpf, telefone, equipamento) -> None:
@@ -52,3 +54,18 @@ class Cliente:
         else:
             print("Equipamento não existente no bancod de dados")
     
+    #############Métodos
+    
+    
+    
+    #Método de população da lista de clientes
+    def populate():
+        listaCliente = []
+        with open('dados/cliente.csv', 'r') as arquivo_csv:
+            arquivo_cliente = csv.reader(arquivo_csv, delimiter = ';')
+            for i, cliente in enumerate(arquivo_cliente):
+                if i > 0:
+                    listaCliente.append(cliente)
+                else:
+                    pass
+        return listaCliente
