@@ -59,6 +59,7 @@ class Cliente:
     
     
     #Método de população da lista de clientes
+    @staticmethod
     def populate():
         listaCliente = []
         with open('dados/cliente.csv', 'r') as arquivo_csv:
@@ -69,3 +70,7 @@ class Cliente:
                 else:
                     pass
         return listaCliente
+
+if __name__== "__main__":
+    lista = Cliente.populate()
+    print(lista)

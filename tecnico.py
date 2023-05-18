@@ -44,3 +44,7 @@ class Tecnico:
                 else:
                     pass
         return listaTecnico
+
+if __name__== "__main__":
+    lista = Tecnico.populate()
+    print(lista)
