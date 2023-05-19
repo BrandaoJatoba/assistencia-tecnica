@@ -52,11 +52,11 @@ class Cliente:
         if equipamentoRemove in self.__equipamento:
             self.__equipamento.remove(equipamentoRemove)
         else:
-            print("Equipamento não existente no bancod de dados")
+            print("Equipamento não existente no banco de dados")
     
     #############Métodos
     
-    
+
     
     #Método de população da lista de clientes
     @staticmethod

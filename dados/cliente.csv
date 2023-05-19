@@ -1,6 +1,9 @@
 Nome;CPF;Telefone;Equipamento
-Lucas;000.000.000-0;(00) 0000-0000;Computador
-Mariana;111.111.111-1;(11) 1111-1111;Notebook
-Pedro;222.222.222-2;(22) 2222-2222;Smartphone
-Juliana;333.333.333-3;(33) 3333-3333;Tablet
-Carlos;444.444.444-4;(44) 4444-4444;Impressora
+Jobson;123.456.789-10;0101-0101;['Celular']
+Menina da porteira;123.456.789-20;0202-0202;['Celular']
+Zack Efron;123.456.789-30;0303-0303;['Notebook']
+Claudia Leite;123.456.789-40;0404-0404;['Computador']
+Ivete Sangalo;123.456.789-50;0505-0505;['Computador']
+Shakira;123.456.789-60;0606-0606;['Celular']
+Hebe Camargo;123.456.789-70;0707-0707;['Notebook']
+Michal Jackson;123.456.789-80;0808-0808;['Computador']
