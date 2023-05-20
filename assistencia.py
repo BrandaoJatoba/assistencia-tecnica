@@ -51,6 +51,21 @@ class Assistencia:
                 writer = csv.writer(arquivo, delimiter= ';')
                 equipamento = [sn, descricao, cpfCliente, matriculaTecnico]
                 writer.writerow(equipamento)
+
+    #Adição de OS ao banco de dados
+    @staticmethod
+    def addDataBaseOS():
+        listOS = Assistencia.listOfOrdemServico
+        for x in listOS:
+            id = x.id
+            client = x.client
+            tecnico = x.tecnico
+            status = x.status
+            log = x.log
+            with open('dados/OS.csv', 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')
+                OS = [id, client, tecnico, status]
+                writer.writerow(OS)
     
     #Remoção de elementos do banco de dados
     @staticmethod
