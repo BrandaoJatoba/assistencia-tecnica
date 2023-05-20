@@ -43,11 +43,10 @@ def ClientScreen():
     clienWrite.grid(row=1, column=2)
     clienWrite = Entry(ClienteScreen, width=20)
     clienWrite.grid(row=2, column=2)
-    clienButt = BButton(ClienteScreen, text="Adicionar Cliente")
+    clienButt = BButton(ClienteScreen, text="Adicionar Cliente", command=None)
     clienButt.grid(row=4, column=1, padx=15, pady=20)
-    clienButt = BButton(ClienteScreen, text="Atualizar Cliente")
+    clienButt = BButton(ClienteScreen, text="Atualizar Cliente", command=None)
     clienButt.grid(row=4, column=2, padx=15, pady=20)
-
 
 def Os2():
     def NovaOS():
@@ -71,10 +70,10 @@ def NovaOSScreen():
     clientelabel.grid(row=0, column=0, padx=10, pady=(2, 10))
     clientecombobox = ttk.Combobox(NOsScreen)
     clientecombobox.grid(row=1, column=0, padx=10, pady=2)
-    tecnico_label = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
-    tecnico_label.grid(row=2, column=0, padx=10, pady=2)
-    tecnico_combobox = ttk.Combobox(NOsScreen)
-    tecnico_combobox.grid(row=3, column=0, padx=10, pady=2)
+    tecnicolabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
+    tecnicolabel.grid(row=2, column=0, padx=10, pady=2)
+    tecnicocombobox = ttk.Combobox(NOsScreen)
+    tecnicocombobox.grid(row=3, column=0, padx=10, pady=2)
     descricaolabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
     descricaolabel.grid(row=0, column=1, padx=10, pady=(2, 10))
     descricaoentry = Text(NOsScreen, height=10, width=30)
@@ -96,6 +95,18 @@ def AbrirOSScreen():
     AbrirOSScreen = tk.Toplevel()
     AbrirOSScreen.title("AT9000 Abrir OS")
     AbrirOSScreen.config(bg="#333", padx=50, pady=50)
+    AOSLabel = Label(AbrirOSScreen, text="Cliente", fg="#F5F5F5", bg="#333")
+    AOSLabel.grid(row=0, column=0, padx=10, pady=2)
+    AOSLabel = Label(AbrirOSScreen, text="N/S", fg="#F5F5F5", bg="#333")
+    AOSLabel.grid(row=1, column=0, padx=10, pady=2)
+    AOSLabel = Label(AbrirOSScreen, text="Descrição", fg="#F5F5F5", bg="#333")
+    AOSLabel.grid(row=2, column=0, padx=10, pady=2)
+    AOSClientecombobox = ttk.Combobox(AbrirOSScreen)
+    AOSClientecombobox.grid(row=0, column=1, padx=10, pady=2)
+    AOSNS = Entry(AbrirOSScreen, state="readonly")
+    AOSNS.grid(row=1, column=1, padx=10, pady=2)
+    AOSDesc = Text(AbrirOSScreen, height=10, width=20)
+    AOSDesc.grid(row=2, column=1, padx=10, pady=2)
 
 if __name__ == "__main__":
     MenuScreen()
