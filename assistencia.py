@@ -33,35 +33,32 @@ class Assistencia:
                 writer = csv.writer(arquivo, delimiter= ';')
                 tecnico = [nome, matricula, especialidade]
                 writer.writerow(tecnico)
-
     
+    @staticmethod
+    def delDataBase(csvPath, nome):
+        #Ira extrair o csv em uma lista e excluirá o elemento com o indexador correspondente
+        with open(csvPath, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+            index = 0
+            for line in lines:
+                if nome in line[0].split(';'):
+                    break
+                else:
+                    index += 1
+        lines.remove(lines[index])
+
+        #Reescreverá o arquivo com o elemento desejado excluido
+        with open(csvPath, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
+        
 if __name__== "__main__":    
+    #Adicionando o cliente Jobson
+    ## c1 = Cliente('Jobson', '123.456.789-10', '0101-0101', 'Celular')
+    ## Assistencia.listOfClients.append(c1)
+    ## Assistencia.addDataBaseClient()
+    
 
-    c1 = Cliente('Jobson', '123.456.789-10', '0101-0101', 'Celular')
-    c2 = Cliente('Menina da porteira', '123.456.789-20', '0202-0202', 'Celular')
-    c3 = Cliente('Zack Efron', '123.456.789-30', '0303-0303', 'Notebook')
-    c4 = Cliente('Claudia Leite', '123.456.789-40', '0404-0404', 'Computador')
-    c5 = Cliente('Ivete Sangalo', '123.456.789-50', '0505-0505', 'Computador')
-    c6 = Cliente('Shakira', '123.456.789-60', '0606-0606', 'Celular')
-    c7 = Cliente('Hebe Camargo', '123.456.789-70', '0707-0707', 'Notebook')
-    c8 = Cliente('Michal Jackson', '123.456.789-80', '0808-0808', 'Computador')
-
-    t1 = Tecnico('Tata Werneck', '007', 'Computadores')
-    t2 = Tecnico('Silvio Santos', '008', 'Celular')
-
-    Assistencia.listOfClients.append(c1)
-    Assistencia.listOfClients.append(c2)
-    Assistencia.listOfClients.append(c3)
-    Assistencia.listOfClients.append(c4)
-    Assistencia.listOfClients.append(c5)
-    Assistencia.listOfClients.append(c6)
-    Assistencia.listOfClients.append(c7)
-    Assistencia.listOfClients.append(c8)
-
-    Assistencia.listOfTech.append(t1)
-    Assistencia.listOfTech.append(t2)
-
-    Assistencia.addDataBaseClient()
-    Assistencia.addDataBaseTec()
-
-    #Para testar novamente, limpar as linhas do csv, exceto os respectivos cabeçalhos
+    #Excluindo o cliente Jobson
+    Assistencia.delDataBase('dados/cliente.csv', 'Jobson')
