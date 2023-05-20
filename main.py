@@ -1,101 +1,101 @@
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk
 
 #PlaceHolder
 ListaDeProduto = [1, 2, 3, 4, 5]
 ListaDeClientes = ["João", "Maria", "José", "Ana", "Carlos"]
 ListaDeTecnicos = ["Jorge", "Marcelo", "Josepha", "Carla"]
 #PlaceHolder
+def BButton(master, text, command):
+    style = ttk.Style()
+    style.configure("RoundedButton.TButton", relief=RIDGE, background="#333", foreground="#333")
+    button = ttk.Button(master, text=text, style="RoundedButton.TButton", command=command)
+    return button
 
-def ProdAppend():
-    novo_produto = addProd.get()
-    ListaDeProduto.append(novo_produto)
-    listaProduto.delete(0, END)
-    for n in ListaDeProduto:
-        listaProduto.insert(END, str(n))
-    addProd.delete(0, END)
-def ProdRemove():
-    listaProduto.delete(ANCHOR)
-    ListaDeProduto.clear()
-    for n in range(listaProduto.size()):
-        item = listaProduto.get(n)
-        ListaDeProduto.append(item)
-def ClieteAppend():
-    novo_cliente = addCliente.get()
-    ListaDeClientes.append(novo_cliente)
-    listaClientes.delete(0, END)
-    for n in  ListaDeClientes:
-        listaClientes.insert(END, str(n))
-    addCliente.delete(0, END)
-def ClienteRemove():
-    listaClientes.delete(ANCHOR)
-    ListaDeClientes.clear()
-    for n in range(listaClientes.size()):
-        item = listaClientes.get(n)
-        ListaDeClientes.append(item)
-def TecnicoAppend():
-    novo_tecnico = addTecnico.get()
-    ListaDeTecnicos.append(novo_tecnico)
-    listaTecnico.delete(0, END)
-    for t in ListaDeTecnicos:
-        listaTecnico.insert(END, str(t))
-    addTecnico.delete(0, END)
-def TecnicoRemove():
-    listaTecnico.delete(ANCHOR)
-    ListaDeTecnicos.clear()
-    for n in range(listaTecnico.size()):
-        item = listaTecnico.get(n)
-        ListaDeTecnicos.append(item)
+def MenuScreen():
+    Menu = Tk()
+    Menu.title("Assistencia Tecnica 9000")
+    Menu.config(bg="#333", padx=100, pady=100)
+    menuTitle = Label(Menu, text="Bem Vindo", fg="#F5F5F5", bg="#333")
+    menuTitle.grid(row=0, column=1, pady=10, padx=10)
+    menuButt = BButton(Menu, text="Cliente", command=ClientScreen)
+    menuButt.grid(row=2, column=1, padx=10, pady=10)
+    menuButt = BButton(Menu, text="Tecnico", command=None)
+    menuButt.grid(row=3, column=1, padx=10, pady=10)
+    menuButt = BButton(Menu, text="Ordem de Serviço", command=Os2)
+    menuButt.grid(row=4, column=1, padx=10, pady=10)
+    Menu.mainloop()
 
+def ClientScreen():  
+    ClienteScreen = tk.Toplevel()
+    ClienteScreen.title("AT9000 Clientes")
+    ClienteScreen.config(bg="#333", padx=50, pady=50)
+    clienText = Label(ClienteScreen, text="Nome", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=0, column=1, padx=10, pady=2)
+    clienText = Label(ClienteScreen, text="CPF", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=1, column=1, padx=10, pady=2)
+    clienText = Label(ClienteScreen, text="Telefone", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=2, column=1, padx=10, pady=2)
+    clienWrite = Entry(ClienteScreen, width=20)
+    clienWrite.grid(row=0, column=2)
+    clienWrite = Entry(ClienteScreen, width=20)
+    clienWrite.grid(row=1, column=2)
+    clienWrite = Entry(ClienteScreen, width=20)
+    clienWrite.grid(row=2, column=2)
+    clienButt = BButton(ClienteScreen, text="Adicionar Cliente")
+    clienButt.grid(row=4, column=1, padx=15, pady=20)
+    clienButt = BButton(ClienteScreen, text="Atualizar Cliente")
+    clienButt.grid(row=4, column=2, padx=15, pady=20)
+
+
+def Os2():
+    def NovaOS():
+        Os2Screen.destroy()
+        NovaOSScreen()
+    def AbrirOS():
+        Os2Screen.destroy()
+        AbrirOSScreen()
+    Os2Screen = tk.Toplevel()
+    Os2Screen.title("AT9000 OS")
+    Os2Screen.config(bg="#333", padx=50, pady=50)
+    Os2Butt1 = BButton(Os2Screen, text="Nova Ordem de Serviço", command=NovaOS)
+    Os2Butt1.grid(row=1, column=1, pady=5)
+    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=AbrirOS)
+    Os2Butt2.grid(row=2, column=1, pady=5)
+def NovaOSScreen():
+    NOsScreen = tk.Toplevel()
+    NOsScreen.title("AT9000 Nova OS")
+    NOsScreen.config(bg="#333", padx=50, pady=50)
+    clientelabel = Label(NOsScreen, text="Selecionar Cliente", fg="#F5F5F5", bg="#333")
+    clientelabel.grid(row=0, column=0, padx=10, pady=(2, 10))
+    clientecombobox = ttk.Combobox(NOsScreen)
+    clientecombobox.grid(row=1, column=0, padx=10, pady=2)
+    tecnico_label = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
+    tecnico_label.grid(row=2, column=0, padx=10, pady=2)
+    tecnico_combobox = ttk.Combobox(NOsScreen)
+    tecnico_combobox.grid(row=3, column=0, padx=10, pady=2)
+    descricaolabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
+    descricaolabel.grid(row=0, column=1, padx=10, pady=(2, 10))
+    descricaoentry = Text(NOsScreen, height=10, width=30)
+    descricaoentry.grid(row=1, column=1, padx=10, pady=2, rowspan=5)
+    equipamentolabel = Label(NOsScreen, text="Equipamento", fg="#F5F5F5", bg="#333")
+    equipamentolabel.grid(row=6, column=0, padx=10, pady=2)
+    equipamentoentry = Entry(NOsScreen)
+    equipamentoentry.grid(row=7, column=0, padx=10, pady=2)
+    def adicionar_equipamento():
+        equipamento = equipamentoentry.get()
+        equipamentolistbox.insert(END, equipamento)
+        equipamentoentry.delete(0, END)
+    adicionarbutton = BButton(NOsScreen, text="Adicionar", command=adicionar_equipamento)
+    adicionarbutton.grid(row=8, column=0, padx=10, pady=2)
+    equipamentolistbox = Listbox(NOsScreen)
+    equipamentolistbox.grid(row=9, column=0, padx=10, pady=(2, 10))
+
+def AbrirOSScreen():
+    AbrirOSScreen = tk.Toplevel()
+    AbrirOSScreen.title("AT9000 Abrir OS")
+    AbrirOSScreen.config(bg="#333", padx=50, pady=50)
 
 if __name__ == "__main__":
-    janela = Tk()
-    janela.title("Assistencia Tecnica")
-    janela.config(bg="#F5F5F5", padx=20, pady=20)
-
-    # Produto
-    addProd = Entry(width=20, font=("Arial", 14))
-    addProd.grid(row=1, column=1, pady=10)
-    bttProduto = ttk.Button(janela, text="Adicionar", command=ProdAppend)
-    bttProduto.grid(row=1, column=2, pady=10)
-    bttRemoverProduto = ttk.Button(janela, text="Remover", command=ProdRemove)
-    bttRemoverProduto.grid(row=3, column=1, pady=10)
-    nomeProduto = Label(text="Adicionar Produto", font=("Arial", 20), fg="#333", bg="#F5F5F5")
-    nomeProduto.grid(row=0, column=1, pady=20)
-    listaProduto = Listbox(janela, height=5, font=("Arial", 14))
-    for n in ListaDeProduto:
-        listaProduto.insert(END, str(n))
-    listaProduto.grid(row=2, column=0, columnspan=2, pady=10)
-
-    # Cliente
-    addCliente = Entry(width=20, font=("Arial", 14))
-    addCliente.grid(row=1, column=10, pady=10)
-    bttCliente = ttk.Button(janela, text="Adicionar", command=ClieteAppend)
-    bttCliente.grid(row=1, column=11, pady=10)
-    bttRemoverCliente = ttk.Button(janela, text="Remover", command=ClienteRemove)
-    bttRemoverCliente.grid(row=3, column=10, pady=10)
-    nomeCliente = Label(text="Adicionar Cliente", font=("Arial", 20), fg="#333", bg="#F5F5F5")
-    nomeCliente.grid(row=0, column=10, pady=20)
-    listaClientes = Listbox(janela, height=5, font=("Arial", 14))
-    for n in ListaDeClientes:
-        listaClientes.insert(END, str(n))
-    listaClientes.grid(row=2, column=9, columnspan=2, pady=10)
-
-    #Tecnico
-    addTecnico = Entry(width=20, font=("Arial", 14))
-    addTecnico.grid(row=1, column=18, pady=10)
-    bttTecnico = ttk.Button(janela, text="Adicionar", command=TecnicoAppend)
-    bttTecnico.grid(row=1, column=19, pady=10)
-    bttRemoverTecnico = ttk.Button(janela, text="Remover", command=TecnicoRemove)
-    bttRemoverTecnico.grid(row=3, column=18, pady=10)
-    nomeTecnico = Label(text="Adicionar Técnico", font=("Arial", 20), fg="#333", bg="#F5F5F5")
-    nomeTecnico.grid(row=0, column=18, pady=20)
-    listaTecnico = Listbox(janela, height=5, font=("Arial", 14))
-    for t in ListaDeTecnicos:
-        listaTecnico.insert(END, str(t))
-    listaTecnico.grid(row=2, column=17, columnspan=2, pady=10)
-
-
-
-
-    janela.mainloop()
+    MenuScreen()
