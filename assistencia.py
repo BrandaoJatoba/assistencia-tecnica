@@ -1,11 +1,13 @@
 import csv
 from cliente import Cliente
 from tecnico import Tecnico
+from equipamento import Equipamento
 
 class Assistencia:
     listOfClients = []
     listOfTech = []
     listOfOrdemServico = []
+    listOfEquipamentos = []
         
     #Adição de clientes no banco de dados
     @staticmethod
@@ -20,6 +22,7 @@ class Assistencia:
                 writer = csv.writer(arquivo, delimiter= ';')
                 cliente = [nome, cpf, tel, equip]
                 writer.writerow(cliente)
+        
 
     #Adição de tecnicos no banco de dados
     @staticmethod
@@ -34,15 +37,31 @@ class Assistencia:
                 tecnico = [nome, matricula, especialidade]
                 writer.writerow(tecnico)
     
+
+    #Adição de equipamentos ao banco de dados
     @staticmethod
-    def delDataBase(csvPath, nome):
+    def addDataBaseEquip():
+        listEquip = Assistencia.listOfEquipamentos
+        for x in listEquip:
+            sn = x.sn
+            descricao = x.descricao
+            cpfCliente = x.cliente
+            matriculaTecnico = x.tecnico
+            with open('dados/equipamento.csv', 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')
+                equipamento = [sn, descricao, cpfCliente, matriculaTecnico]
+                writer.writerow(equipamento)
+    
+    #Remoção de elementos do banco de dados
+    @staticmethod
+    def delDataBase(csvPath, x): #para "x" sendo nome do tecnico/cliente ou SN do equipamento
         #Ira extrair o csv em uma lista e excluirá o elemento com o indexador correspondente
         with open(csvPath, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
             for line in lines:
-                if nome in line[0].split(';'):
+                if x in line[0].split(';'):
                     break
                 else:
                     index += 1
@@ -55,10 +74,16 @@ class Assistencia:
         
 if __name__== "__main__":    
     #Adicionando o cliente Jobson
-    ## c1 = Cliente('Jobson', '123.456.789-10', '0101-0101', 'Celular')
-    ## Assistencia.listOfClients.append(c1)
-    ## Assistencia.addDataBaseClient()
+    c1 = Cliente('Jobson', '123.456.789-10', '0101-0101', None)
+    t1 = Tecnico('Barbie', '010', 'Notebook')
+    Assistencia.listOfClients.append(c1)
+    Assistencia.listOfTech.append(t1)
+    Assistencia.addDataBaseClient()
+    Assistencia.addDataBaseTec()
     
+    equip1 = Equipamento('010203', 'Computador Dell - Risco na parte lateral', c1.cpf, t1.matricula)
+    Assistencia.listOfEquipamentos.append(equip1)
+    Assistencia.addDataBaseEquip()
 
     #Excluindo o cliente Jobson
-    Assistencia.delDataBase('dados/cliente.csv', 'Jobson')
+    ##Assistencia.delDataBase('dados/cliente.csv', 'Jobson')
