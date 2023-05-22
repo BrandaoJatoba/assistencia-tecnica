@@ -1,4 +1,5 @@
 import especialidade
+import csv
 
 class Tecnico:
     def __init__(self, nome, matricula, especialidade) -> None:
@@ -30,3 +31,20 @@ class Tecnico:
     def especialidade(self, especialidade):
         self.__especialidade = especialidade
 
+    #############Métodos
+    
+    #Método de população da lista de tecnicos
+    def populate():
+        listaTecnico = []
+        with open('dados/tecnico.csv', 'r') as arquivo_csv:
+            arquivo_tecnico = csv.reader(arquivo_csv, delimiter = ';')
+            for i, cliente in enumerate(arquivo_tecnico):
+                if i > 0:
+                    listaTecnico.append(cliente)
+                else:
+                    pass
+        return listaTecnico
+
+if __name__== "__main__":
+    lista = Tecnico.populate()
+    print(lista)
