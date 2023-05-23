@@ -1,4 +1,6 @@
 class OrdemServico:
+
+    listaOS = []
     
     def __init__(self, id:int, client, tecnico, status) -> None:
         self.__int = int

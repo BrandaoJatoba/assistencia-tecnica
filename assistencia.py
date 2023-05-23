@@ -17,10 +17,9 @@ class Assistencia:
             nome = x.nome
             cpf = x.cpf
             tel = x.telefone
-            equip = x.equipamento
             with open('dados/cliente.csv', 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')
-                cliente = [nome, cpf, tel, equip]
+                cliente = [nome, cpf, tel]
                 writer.writerow(cliente)
         
 

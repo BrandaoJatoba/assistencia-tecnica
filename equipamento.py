@@ -1,5 +1,7 @@
 class Equipamento:
 
+    listaEquipamentos = []
+
     def __init__(self, sn, descricao, cpfCliente, matriculaTecnico) -> None:
         self.__sn = sn
         self.__descricao = descricao
@@ -20,4 +22,14 @@ class Equipamento:
 
     @property
     def tecnico(self):
-        return self.__tecnico
+        return self.__tecnico    
+
+    def addEquipamento(equipamentoNovo):
+        Equipamento.listaEquipamentos.append(equipamentoNovo)
+        pass
+
+    def delEquipamentos(self, equipamentoRemove):
+        if equipamentoRemove in Equipamento.listaEquipamentos:
+            Equipamento.listaEquipamentos.remove(equipamentoRemove)
+        else:
+            print("Equipamento não existente no banco de dados")
