@@ -3,36 +3,37 @@ import time
 class Log:
     def __init__(self, id, os, comentario) -> None:
         self.__id = id
-        self.__timestamp = time.localtime
         self.__os = os
         self.__comentario = comentario
-        pass
+        self.__timestamp = time.time()
 
+########### GETTERS E SETTERS #############
     @property
     def id(self):
         return self.__id
-
-    @property
-    def timestamp(self):
-        return self.__timestamp
-
     @property
     def os(self):
         return self.__os
-
     @property
     def comentario(self):
-        return self.__comentario
-    
+        return self.__comentario    
+    @property
+    def timestamp(self):
+        savedTime = time.localtime(self.__timestamp)
+        time_string = time.strftime("%d/%m/%Y, %H:%M:%S", savedTime)
+        return time_string
     @id.setter
     def id(self, id):
         self.__id = id
-        pass
-
     @os.setter
     def os(self, os):
         self.__os = os
-
     @comentario.setter
     def comentario(self, comentario):
         self.__comentario = comentario
+###########################################
+
+# Outros Métodos
+
+    def __str__(self):
+        return f"{self.timestamp}\n{self.comentario}"

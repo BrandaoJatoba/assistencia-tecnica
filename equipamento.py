@@ -1,3 +1,5 @@
+import csv
+
 class Equipamento:
 
     listaEquipamentos = []
@@ -23,6 +25,15 @@ class Equipamento:
     @property
     def tecnico(self):
         return self.__tecnico    
+
+    
+    def populate():
+        with open('dados/equipamento.csv', 'r') as arquivo_csv:
+            arquivo_equipamento = csv.reader(arquivo_csv, delimiter = ';')
+            for i, equipamento in enumerate(arquivo_equipamento):
+                if i > 0:
+                    Equipamento.listaEquipamentos.append(equipamento)
+
 
     def addEquipamento(equipamentoNovo):
         Equipamento.listaEquipamentos.append(equipamentoNovo)
