@@ -1,6 +1,10 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+from cliente import Cliente
+from tecnico import Tecnico
+from equipamento import Equipamento
+from ordemServico import OrdemServico
 
 # PlaceHolder
 ListaDeProduto = [1, 2, 3, 4, 5]
@@ -122,6 +126,7 @@ def NovaOSScreen():
     NOsLabel.grid(row=0, column=0, padx=10, pady=(2, 10))
 
     NOsCombobox = ttk.Combobox(NOsScreen)
+    NOsCombobox['values'] = [cliente[0] for cliente in Cliente.listaCliente]
     NOsCombobox.grid(row=1, column=0, padx=10, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
