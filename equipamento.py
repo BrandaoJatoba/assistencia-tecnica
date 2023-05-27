@@ -35,6 +35,40 @@ class Equipamento:
                     Equipamento.listaEquipamentos.append(equipamento)
 
 
+    #Adição de equipamentos ao banco de dados
+    @staticmethod
+    def addDataBaseEquip(lista):
+        listEquip = lista
+        for x in listEquip:
+            sn = x.sn
+            descricao = x.descricao
+            cpfCliente = x.cliente
+            matriculaTecnico = x.tecnico
+            with open('dados/equipamento.csv', 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')
+                equipamento = [sn, descricao, cpfCliente, matriculaTecnico]
+                writer.writerow(equipamento)
+
+    #Remoção de elementos do banco de dados
+    @staticmethod
+    def delDataBase(csvPath, SN):
+        with open(csvPath, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+            index = 0
+            for line in lines:
+                if SN in line[0].split(';'):
+                    break
+                else:
+                    index += 1
+        lines.remove(lines[index])
+
+        #Reescreverá o arquivo com o elemento desejado excluido
+        with open(csvPath, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
+
+    #Métodos que adicionaram e removeam
     def addEquipamento(equipamentoNovo):
         Equipamento.listaEquipamentos.append(equipamentoNovo)
         pass
