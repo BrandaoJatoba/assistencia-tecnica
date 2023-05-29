@@ -3,9 +3,11 @@ import csv
 
 class Cliente:
 
+    CSV_PATH = 'dados/cliente.csv'
+
     listaCliente = []
 
-    def __init__(self, nome, cpf, telefone, equipamento) -> None:
+    def __init__(self, nome, cpf, telefone) -> None:
         self.__nome = nome
         self.__cpf = cpf
         self.__telefone = telefone
@@ -35,9 +37,15 @@ class Cliente:
         pass
 ##################################################
 
-### Outros Métodos
+# Outros Métodos
 
-    #Adição de clientes no banco de dados
+### Adição de clientes no banco de dados
+    @staticmethod
+    def addSingleCliente(lista):
+        with open('dados/cliente.csv', 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')               
+                writer.writerow(lista)
+
     @staticmethod
     def addDataBaseClient(lista):
         listClients = lista
@@ -52,8 +60,8 @@ class Cliente:
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(csvPath, CPF): 
-        with open(csvPath, 'r', newline='') as arquivo:
+    def delDataBase(CPF): 
+        with open(Cliente.CSV_PATH, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
@@ -65,13 +73,13 @@ class Cliente:
         lines.remove(lines[index])
 
         #Reescreverá o arquivo com o elemento desejado excluido
-        with open(csvPath, 'w', newline='') as arquivo:
+        with open(Cliente.CSV_PATH, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
     def populate():
-        with open('dados/cliente.csv', 'r') as arquivo_csv:
+        with open(Cliente.CSV_PATH, 'r') as arquivo_csv:
             arquivo_cliente = csv.reader(arquivo_csv, delimiter = ';')
             for i, cliente in enumerate(arquivo_cliente):
                 if i > 0:

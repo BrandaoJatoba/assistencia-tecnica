@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+from tkinter import messagebox
 from cliente import Cliente
 from tecnico import Tecnico
 from equipamento import Equipamento
@@ -38,25 +39,32 @@ def MenuScreen():
 
 
 def ClientScreen():
-    def NovoCli():
-        ClienteScreen.destroy()
-        AddClientScreen()
-    def ATTCli():
-        ClienteScreen.destroy()
-        AttClientScreen()
 
     ClienteScreen = tk.Toplevel()
     ClienteScreen.title("AT9000 Clientes")
     ClienteScreen.config(bg="#333", padx=50, pady=50)
 
-    clienButt = BButton(ClienteScreen, text="Adicionar Cliente", command=NovoCli)
+    clienButt = BButton(ClienteScreen, text="Adicionar Cliente", command=AddClientScreen)
     clienButt.grid(row=0, column=0, padx=15, pady=20)
 
-    clienButt = BButton(ClienteScreen, text="Atualizar Cliente", command=ATTCli)
+    clienButt = BButton(ClienteScreen, text="Atualizar Cliente", command=selectClienteScreen)
     clienButt.grid(row=0, column=1, padx=15, pady=20)
 
 
 def AddClientScreen():
+
+    def storeClientInMemory():
+####### place try except here
+        name = nameEntry.get()
+        cpf = cpfEntry.get()
+        phone = phoneEntry.get()
+        lista = [name, cpf, phone]
+        Cliente.listaCliente.append(lista)
+        Cliente.addSingleCliente(lista)
+        messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
+        AddClientScreen.destroy()
+        
+
     AddClientScreen = tk.Toplevel()
     AddClientScreen.title("AT9000 Adicionar Cliente")
     AddClientScreen.config(bg="#333", padx=50, pady=50)
@@ -70,51 +78,107 @@ def AddClientScreen():
     clienText = Label(AddClientScreen, text="Telefone", fg="#F5F5F5", bg="#333")
     clienText.grid(row=2, column=0, padx=10, pady=2)
 
-    clienWrite = Entry(AddClientScreen, width=20)
-    clienWrite.grid(row=0, column=1)
+    nameEntry = Entry(AddClientScreen, width=20)
+    nameEntry.grid(row=0, column=1)
 
-    clienWrite = Entry(AddClientScreen, width=20)
-    clienWrite.grid(row=1, column=1)
+    cpfEntry = Entry(AddClientScreen, width=20)
+    cpfEntry.grid(row=1, column=1)
     
-    clienWrite = Entry(AddClientScreen, width=20)
-    clienWrite.grid(row=2, column=1)
+    phoneEntry = Entry(AddClientScreen, width=20)
+    phoneEntry.grid(row=2, column=1)
 
-    clienButt = BButton(AddClientScreen, text="Adicionar Cliente", command=None)
+    clienButt = BButton(AddClientScreen, text="Adicionar Cliente", command=storeClientInMemory)
+    clienButt.grid(row=3, column=0, columnspan=2, padx=15, pady=20)
+    
+        
+def updateClientScreen(index):
+
+    def updateClientInMemory():
+####### place try except here
+        name = nameEntry.get()
+        cpf = cpfEntry.get()
+        phone = phoneEntry.get()
+        lista = [name, cpf, phone]
+        
+        #Não está funcionando, não sei o porquê
+        for x in Cliente.listaCliente:
+            if x[1]==cpf:
+                Cliente.listaCliente.remove(x)
+
+        Cliente.delDataBase(cpf)
+
+        Cliente.addSingleCliente(lista)
+        messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
+        clientToUpdateScreen.destroy()
+        
+    clientToUpdate = Cliente.listaCliente[index]
+
+    clientToUpdateScreen = tk.Toplevel()
+    clientToUpdateScreen.title("AT9000 Atualizar Cliente")
+    clientToUpdateScreen.config(bg="#333", padx=50, pady=50)
+
+    clienText = Label(clientToUpdateScreen, text="Nome", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=0, column=0, padx=10, pady=2)
+
+    clienText = Label(clientToUpdateScreen, text="CPF", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=1, column=0, padx=10, pady=2)
+
+    clienText = Label(clientToUpdateScreen, text="Telefone", fg="#F5F5F5", bg="#333")
+    clienText.grid(row=2, column=0, padx=10, pady=2)
+
+    nameEntry = Entry(clientToUpdateScreen, width=20)
+    nameEntry.grid(row=0, column=1)
+    nameEntry.insert(0, clientToUpdate[0])
+    
+    cpfEntry = Entry(clientToUpdateScreen, width=20)
+    cpfEntry.grid(row=1, column=1)
+    cpfEntry.insert(0, clientToUpdate[1])
+    cpfEntry.config(state= "disabled")
+    
+    phoneEntry = Entry(clientToUpdateScreen, width=20)
+    phoneEntry.grid(row=2, column=1)
+    phoneEntry.insert(0, clientToUpdate[2])
+
+    clienButt = BButton(clientToUpdateScreen, text="Atualizar Cliente", command=updateClientInMemory)
     clienButt.grid(row=3, column=0, columnspan=2, padx=15, pady=20)
 
-def AttClientScreen():
+def selectClienteScreen():
+
+    def openUpdateClientScreen():
+      indexTuple = clientesListbox.curselection()
+      if len(indexTuple) != 0:
+        index = indexTuple[0]
+        updateClientScreen(index)
+    
+    def updateList():
+        clientesListbox.delete(0, END)
+        for cliente in Cliente.listaCliente:
+            clientesListbox.insert(tk.END, cliente[0])
+        clientesListbox.grid(row=0, column=0, padx=10, pady=10)
+
     AtuClientScreen = tk.Toplevel()
     AtuClientScreen.title("AT9000 Atualizar Clientes")
     AtuClientScreen.config(bg="#333", padx=50, pady=50)
 
-    listbox = Listbox(AtuClientScreen, width=40)
-    for cliente in ListaDeClientes:
-        listbox.insert(tk.END, cliente)
-    listbox.grid(row=0, column=0, padx=10, pady=10)
+    clientesListbox = Listbox(AtuClientScreen, width=40)
+    updateList()    
 
-    AtuButt = BButton(AtuClientScreen, text="Remover Cliente", command=None)
+    AtuButt = BButton(AtuClientScreen, text="Atualizar Lista Cliente", command=updateList)
     AtuButt.grid(row=1, column=0, padx=10, pady=5)
 
-    AtuButt = BButton(AtuClientScreen, text="Atualizar Cliente", command=None)
+    AtuButt = BButton(AtuClientScreen, text="Atualizar Cliente", command=openUpdateClientScreen)
     AtuButt.grid(row=1, column=1, padx=10, pady=5)
 
 
 def Os2():
-    def NovaOS():
-        Os2Screen.destroy()
-        NovaOSScreen()
-    def AbrirOS():
-        Os2Screen.destroy()
-        AbrirOSScreen()
-
     Os2Screen = tk.Toplevel()
     Os2Screen.title("AT9000 OS")
     Os2Screen.config(bg="#333", padx=50, pady=50)
 
-    Os2Butt1 = BButton(Os2Screen, text="Nova Ordem de Serviço", command=NovaOS)
+    Os2Butt1 = BButton(Os2Screen, text="Nova Ordem de Serviço", command=NovaOSScreen)
     Os2Butt1.grid(row=1, column=1, pady=5)
 
-    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=AbrirOS)
+    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=AbrirOSScreen)
     Os2Butt2.grid(row=2, column=1, pady=5)
 
 def NovaOSScreen():
@@ -133,6 +197,7 @@ def NovaOSScreen():
     NOsLabel.grid(row=2, column=0, padx=10, pady=2)
 
     NOsCombobox = ttk.Combobox(NOsScreen)
+    NOsCombobox['values'] = [tecnico[0] for tecnico in Tecnico.listaTecnico]
     NOsCombobox.grid(row=3, column=0, padx=10, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
@@ -147,12 +212,12 @@ def NovaOSScreen():
     NOsEntry = Entry(NOsScreen)
     NOsEntry.grid(row=7, column=0, padx=10, pady=2)
 
-    def adicionar_equipamento():
-        equipamento = NOsEntry.get()
-        NOsListbox.insert(END, equipamento)
-        NOsEntry.delete(0, END)
+    # def adicionar_equipamento():
+    #     equipamento = NOsEntry.get()
+    #     NOsListbox.insert(END, equipamento)
+    #     NOsEntry.delete(0, END)
 
-    NOsButton = BButton(NOsScreen, text="Adicionar", command=adicionar_equipamento)
+    NOsButton = BButton(NOsScreen, text="Adicionar", command=None)
     NOsButton.grid(row=8, column=0, padx=10, pady=2)
 
     NOsListbox = Listbox(NOsScreen)
@@ -214,7 +279,6 @@ def TecnicoScreen():
     
     TecButt = BButton(TecnicoScreen, text="Adicionar Tecnico", command=None)
     TecButt.grid(row=3, column=2, padx=7, pady=20)
-
 
 if __name__ == "__main__":
     MenuScreen()
