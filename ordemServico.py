@@ -4,12 +4,13 @@ class OrdemServico:
 
     listaOS = []
     
-    def __init__(self, id:int, client, tecnico, status) -> None:
+    def __init__(self, id:int, client, tecnico, status, equipamento) -> None:
         self.__int = int
         self.__client = client
         self.__tecnico = tecnico
         self.__status = status
         self.__log = []
+        self.__equipamento = equipamento
         pass
 
     ###### GETTERS AND SETTERS #################

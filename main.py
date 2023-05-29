@@ -5,7 +5,6 @@ if __name__ == "__main__":
 
 # Carregando estado do Banco de Dados
     Cliente.populate()
-    Equipamento.populate()
     Tecnico.populate()
     OrdemServico.populate()
     

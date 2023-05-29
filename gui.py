@@ -4,14 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 from cliente import Cliente
 from tecnico import Tecnico
-from equipamento import Equipamento
 from ordemServico import OrdemServico
-
-# PlaceHolder
-ListaDeProduto = [1, 2, 3, 4, 5]
-ListaDeClientes = ["João", "Maria", "José", "Ana", "Carlos"]
-ListaDeTecnicos = ["Jorge", "Marcelo", "Josepha", "Carla"]
-# PlaceHolder
 
 def BButton(master, text, command):
     style = ttk.Style()
@@ -37,7 +30,6 @@ def MenuScreen():
     menuButt.grid(row=4, column=1, padx=10, pady=10)
     Menu.mainloop()
 
-
 def ClientScreen():
 
     ClienteScreen = tk.Toplevel()
@@ -49,7 +41,6 @@ def ClientScreen():
 
     clienButt = BButton(ClienteScreen, text="Atualizar Cliente", command=selectClienteScreen)
     clienButt.grid(row=0, column=1, padx=15, pady=20)
-
 
 def AddClientScreen():
 
@@ -89,7 +80,6 @@ def AddClientScreen():
 
     clienButt = BButton(AddClientScreen, text="Adicionar Cliente", command=storeClientInMemory)
     clienButt.grid(row=3, column=0, columnspan=2, padx=15, pady=20)
-    
         
 def updateClientScreen(index):
 
@@ -99,14 +89,11 @@ def updateClientScreen(index):
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
         lista = [name, cpf, phone]
-        
-        #Não está funcionando, não sei o porquê
         for x in Cliente.listaCliente:
             if x[1]==cpf:
                 Cliente.listaCliente.remove(x)
-
+        Cliente.listaCliente.append(lista)
         Cliente.delDataBase(cpf)
-
         Cliente.addSingleCliente(lista)
         messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
         clientToUpdateScreen.destroy()
@@ -169,7 +156,6 @@ def selectClienteScreen():
     AtuButt = BButton(AtuClientScreen, text="Atualizar Cliente", command=openUpdateClientScreen)
     AtuButt.grid(row=1, column=1, padx=10, pady=5)
 
-
 def Os2():
     Os2Screen = tk.Toplevel()
     Os2Screen.title("AT9000 OS")
@@ -178,7 +164,7 @@ def Os2():
     Os2Butt1 = BButton(Os2Screen, text="Nova Ordem de Serviço", command=NovaOSScreen)
     Os2Butt1.grid(row=1, column=1, pady=5)
 
-    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=AbrirOSScreen)
+    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=None)
     Os2Butt2.grid(row=2, column=1, pady=5)
 
 def NovaOSScreen():
@@ -190,7 +176,7 @@ def NovaOSScreen():
     NOsLabel.grid(row=0, column=0, padx=10, pady=(2, 10))
 
     NOsCombobox = ttk.Combobox(NOsScreen)
-    NOsCombobox['values'] = [cliente[0] for cliente in Cliente.listaCliente]
+    NOsCombobox['values'] = ["".join(x[1]+" - "+x[0]) for x in Cliente.listaCliente]
     NOsCombobox.grid(row=1, column=0, padx=10, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
@@ -206,53 +192,13 @@ def NovaOSScreen():
     NOsEntry = Text(NOsScreen, height=10, width=30)
     NOsEntry.grid(row=1, column=1, padx=10, pady=2, rowspan=5)
 
-    NOsLabel = Label(NOsScreen, text="Equipamento", fg="#F5F5F5", bg="#333")
+    NOsLabel = Label(NOsScreen, text="Equipamento(s)", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=6, column=0, padx=10, pady=2)
-
-    NOsEntry = Entry(NOsScreen)
-    NOsEntry.grid(row=7, column=0, padx=10, pady=2)
-
-    # def adicionar_equipamento():
-    #     equipamento = NOsEntry.get()
-    #     NOsListbox.insert(END, equipamento)
-    #     NOsEntry.delete(0, END)
-
-    NOsButton = BButton(NOsScreen, text="Adicionar", command=None)
-    NOsButton.grid(row=8, column=0, padx=10, pady=2)
-
-    NOsListbox = Listbox(NOsScreen)
-    NOsListbox.grid(row=9, column=0, padx=10, pady=(2, 10))
+    equipamentDescription = Text(NOsScreen, height=10, width=30)
+    equipamentDescription.grid(row=7, column=0, padx=10, pady=2, rowspan=5)
 
     NOsButton = BButton(NOsScreen, text="Salvar", command=None)
     NOsButton.grid(row=6, column=1, padx=10, pady=2)
-
-
-def AbrirOSScreen():
-    AbrirOSScreen = tk.Toplevel()
-    AbrirOSScreen.title("AT9000 Abrir OS")
-    AbrirOSScreen.config(bg="#333", padx=50, pady=50)
-
-    AOSLabel = Label(AbrirOSScreen, text="Cliente", fg="#F5F5F5", bg="#333")
-    AOSLabel.grid(row=0, column=0, padx=10, pady=2)
-
-    AOSLabel = Label(AbrirOSScreen, text="N/S", fg="#F5F5F5", bg="#333")
-    AOSLabel.grid(row=1, column=0, padx=10, pady=2)
-
-    AOSLabel = Label(AbrirOSScreen, text="Descrição", fg="#F5F5F5", bg="#333")
-    AOSLabel.grid(row=2, column=0, padx=10, pady=2)
-
-    AOSClientecombobox = ttk.Combobox(AbrirOSScreen)
-    AOSClientecombobox.grid(row=0, column=1, padx=10, pady=2)
-
-    AOSNS = Entry(AbrirOSScreen, state="readonly")
-    AOSNS.grid(row=1, column=1, padx=10, pady=2)
-
-    AOSDesc = Text(AbrirOSScreen, height=10, width=20)
-    AOSDesc.grid(row=2, column=1, padx=10, pady=2)
-
-    AOSButton = BButton(AbrirOSScreen, text="Salvar", command=None)
-    AOSButton.grid(row=3, column=1, padx=10, pady=2)
-
 
 def TecnicoScreen():
     TecnicoScreen = tk.Toplevel()
