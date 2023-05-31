@@ -200,9 +200,23 @@ def NovaOSScreen():
     NOsButton = BButton(NOsScreen, text="Salvar", command=None)
     NOsButton.grid(row=6, column=1, padx=10, pady=2)
 
-def TecnicoScreen():
+#Cade abrir OS ?
+
+def TecnicoScreen(): 
     TecnicoScreen = tk.Toplevel()
     TecnicoScreen.title("AT9000 Tecnicos")
+    TecnicoScreen.config(bg="#333", padx=50, pady=50)
+
+    TecButt = BButton(TecnicoScreen, text="Adicionar Tecnico", command=AddTecnicoScreen)
+    TecButt.grid(row=0, column=0, padx=15, pady=20)
+
+    TecButt = BButton(TecnicoScreen, text="Atualizar Tecnico", command=selectTecnicoScreen)
+    TecButt.grid(row=0, column=1, padx=15, pady=20)
+    
+
+def AddTecnicoScreen():
+    TecnicoScreen = tk.Toplevel()
+    TecnicoScreen.title("AT9000 Adicionar Tecnicos")
     TecnicoScreen.config(bg="#333", padx=50, pady=50)
 
     TecText = Label(TecnicoScreen, text="Nome", fg="#F5F5F5", bg="#333")
@@ -225,6 +239,20 @@ def TecnicoScreen():
     
     TecButt = BButton(TecnicoScreen, text="Adicionar Tecnico", command=None)
     TecButt.grid(row=3, column=2, padx=7, pady=20)
+
+# Eu não consegui fazer a bagunça la de cima, então tem so a GUI dessa parte :ThumbsUp:
+def selectTecnicoScreen():
+    TecnicoScreen = tk.Toplevel()
+    TecnicoScreen.title("AT9000 Atualizar Tecnico")
+    TecnicoScreen.config(bg="#333", padx=50, pady=50)
+    listbox = Listbox(TecnicoScreen, width=40)
+    listbox.grid(row=0, column=0, padx=10, pady=10)
+
+    TecButt = BButton(TecnicoScreen, text="Remover Tecnico", command=None)
+    TecButt.grid(row=1, column=0, padx=10, pady=5)
+
+    TecButt = BButton(TecnicoScreen, text="Atualizar Tecnico", command=None)
+    TecButt.grid(row=1, column=1, padx=10, pady=5)
 
 if __name__ == "__main__":
     MenuScreen()
