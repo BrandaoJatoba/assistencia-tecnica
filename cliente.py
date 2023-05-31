@@ -81,11 +81,14 @@ class Cliente:
     def populate():
         with open(Cliente.CSV_PATH, 'r') as arquivo_csv:
             arquivo_cliente = csv.reader(arquivo_csv, delimiter = ';')
-            for i, cliente in enumerate(arquivo_cliente):
+            for i, line in enumerate(arquivo_cliente):
                 if i > 0:
-                    Cliente.listaCliente.append(cliente)
-
+                    client = Cliente(line[0], line[1], line[2])
+                    Cliente.listaCliente.append(client)
 if __name__== "__main__":
-    lista = Cliente.populate()
-    print(lista)
+    Cliente.populate()
+    print(Cliente.listaCliente)
+    print(Cliente.listaCliente[0].nome)
+    print(Cliente.listaCliente[0].cpf)
+    print(Cliente.listaCliente[0].telefone)
 

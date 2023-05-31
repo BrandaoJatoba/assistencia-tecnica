@@ -63,10 +63,13 @@ class Tecnico:
     def populate():
         with open('dados/tecnico.csv', 'r') as arquivo_csv:
             arquivo_tecnico = csv.reader(arquivo_csv, delimiter = ';')
-            for i, tecnico in enumerate(arquivo_tecnico):
+            for i, line in enumerate(arquivo_tecnico):
                 if i > 0:
-                    Tecnico.listaTecnico.append(tecnico)
-
+                    tec = Tecnico(line[0], line[1], line[2])
+                    Tecnico.listaTecnico.append(tec)
 if __name__== "__main__":
-    lista = Tecnico.populate()
-    print(lista)
+    Tecnico.populate()
+    print(Tecnico.listaTecnico)
+    print(Tecnico.listaTecnico[0].nome)
+    print(Tecnico.listaTecnico[0].matricula)
+    print(Tecnico.listaTecnico[0].especialidade)

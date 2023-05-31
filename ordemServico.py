@@ -4,8 +4,8 @@ class OrdemServico:
 
     listaOS = []
     
-    def __init__(self, id:int, client, tecnico, status, equipamento) -> None:
-        self.__int = int
+    def __init__(self, id, client, tecnico, status, equipamento) -> None:
+        self.__id = id
         self.__client = client
         self.__tecnico = tecnico
         self.__status = status
@@ -14,6 +14,37 @@ class OrdemServico:
         pass
 
     ###### GETTERS AND SETTERS #################
+
+    @property
+    def id(self):
+        return self.__id
+    @property
+    def client(self):
+        return self.__client
+    @property
+    def tecnico(self):
+        return self.__tecnico
+    @property
+    def status(self):
+        return self.__status   
+    @property
+    def equipamento(self):
+        return self.__equipamento   
+    @id.setter
+    def id(self, id):
+        self.__id = id    
+    @client.setter
+    def client(self, client):
+        self.__client = client    
+    @tecnico.setter
+    def tecnico(self, tecnico):
+        self.__tecnico = tecnico
+    @status.setter
+    def status(self, status):
+        self.__status = status
+    @equipamento.setter
+    def equipamento(self, equipamento):
+        self.__equipamento = equipamento    
 
     ############################################
     #Adição de OS ao banco de dados
@@ -53,6 +84,17 @@ class OrdemServico:
     def populate():
         with open('dados/OS.csv', 'r') as arquivo_csv:
             arquivo_ordemServico = csv.reader(arquivo_csv, delimiter = ';')
-            for i, ordemServico in enumerate(arquivo_ordemServico):
+            for i, line in enumerate(arquivo_ordemServico):
                 if i > 0:
-                    OrdemServico.listaTecnico.append(ordemServico)
+                    Os = OrdemServico(line[0], line[1], line[2], line[3], line[4])
+                    OrdemServico.listaOS.append(Os)
+
+if __name__== "__main__":
+    OrdemServico.populate()
+    print(OrdemServico.listaOS)
+    print(OrdemServico.listaOS[0].id)
+    print(OrdemServico.listaOS[0].client)
+    print(OrdemServico.listaOS[0].tecnico)
+    print(OrdemServico.listaOS[0].status)
+    print(OrdemServico.listaOS[0].equipamento)
+
