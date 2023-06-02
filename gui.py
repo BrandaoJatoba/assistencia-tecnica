@@ -5,6 +5,7 @@ from tkinter import messagebox
 from cliente import Cliente
 from tecnico import Tecnico
 from ordemServico import OrdemServico
+from especialidade import Especialidade
 
 def BButton(master, text, command):
     style = ttk.Style()
@@ -49,9 +50,9 @@ def AddClientScreen():
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
-        lista = [name, cpf, phone]
-        Cliente.listaCliente.append(lista)
-        Cliente.addSingleCliente(lista)
+        client = Cliente(name, cpf, phone)
+        Cliente.listaCliente.append(client)
+        Cliente.addSingleCliente(client)
         messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
         AddClientScreen.destroy()
         
@@ -88,13 +89,16 @@ def updateClientScreen(index):
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
-        lista = [name, cpf, phone]
+        client = Cliente(name, cpf, phone)
+
         for x in Cliente.listaCliente:
-            if x[1]==cpf:
+            if x.cpf == cpf:
                 Cliente.listaCliente.remove(x)
-        Cliente.listaCliente.append(lista)
         Cliente.delDataBase(cpf)
-        Cliente.addSingleCliente(lista)
+
+        Cliente.listaCliente.append(client)
+        Cliente.addSingleCliente(client)
+
         messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
         clientToUpdateScreen.destroy()
         
@@ -115,16 +119,16 @@ def updateClientScreen(index):
 
     nameEntry = Entry(clientToUpdateScreen, width=20)
     nameEntry.grid(row=0, column=1)
-    nameEntry.insert(0, clientToUpdate[0])
+    nameEntry.insert(0, clientToUpdate.nome)
     
     cpfEntry = Entry(clientToUpdateScreen, width=20)
     cpfEntry.grid(row=1, column=1)
-    cpfEntry.insert(0, clientToUpdate[1])
+    cpfEntry.insert(0, clientToUpdate.cpf)
     cpfEntry.config(state= "disabled")
     
     phoneEntry = Entry(clientToUpdateScreen, width=20)
     phoneEntry.grid(row=2, column=1)
-    phoneEntry.insert(0, clientToUpdate[2])
+    phoneEntry.insert(0, clientToUpdate.telefone)
 
     clienButt = BButton(clientToUpdateScreen, text="Atualizar Cliente", command=updateClientInMemory)
     clienButt.grid(row=3, column=0, columnspan=2, padx=15, pady=20)
@@ -140,7 +144,7 @@ def selectClienteScreen():
     def updateList():
         clientesListbox.delete(0, END)
         for cliente in Cliente.listaCliente:
-            clientesListbox.insert(tk.END, cliente[0])
+            clientesListbox.insert(tk.END, cliente.nome)
         clientesListbox.grid(row=0, column=0, padx=10, pady=10)
 
     AtuClientScreen = tk.Toplevel()
@@ -176,15 +180,15 @@ def NovaOSScreen():
     NOsLabel.grid(row=0, column=0, padx=10, pady=(2, 10))
 
     NOsCombobox = ttk.Combobox(NOsScreen)
-    NOsCombobox['values'] = ["".join(x[1]+" - "+x[0]) for x in Cliente.listaCliente]
-    NOsCombobox.grid(row=1, column=0, padx=10, pady=2)
+    NOsCombobox['values'] = ["".join(x.cpf+" - "+x.nome) for x in Cliente.listaCliente]
+    NOsCombobox.grid(row=1, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=2, column=0, padx=10, pady=2)
 
     NOsCombobox = ttk.Combobox(NOsScreen)
-    NOsCombobox['values'] = [tecnico[0] for tecnico in Tecnico.listaTecnico]
-    NOsCombobox.grid(row=3, column=0, padx=10, pady=2)
+    NOsCombobox['values'] = [tecnico.nome for tecnico in Tecnico.listaTecnico]
+    NOsCombobox.grid(row=3, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=0, column=1, padx=10, pady=(2, 10))
@@ -200,8 +204,6 @@ def NovaOSScreen():
     NOsButton = BButton(NOsScreen, text="Salvar", command=None)
     NOsButton.grid(row=6, column=1, padx=10, pady=2)
 
-#Cade abrir OS ?
-
 def TecnicoScreen(): 
     TecnicoScreen = tk.Toplevel()
     TecnicoScreen.title("AT9000 Tecnicos")
@@ -215,44 +217,116 @@ def TecnicoScreen():
     
 
 def AddTecnicoScreen():
-    TecnicoScreen = tk.Toplevel()
-    TecnicoScreen.title("AT9000 Adicionar Tecnicos")
-    TecnicoScreen.config(bg="#333", padx=50, pady=50)
 
-    TecText = Label(TecnicoScreen, text="Nome", fg="#F5F5F5", bg="#333")
-    TecText.grid(row=0, column=1, padx=10, pady=2)
+    def storetTecInMemory():
+####### place try except here
+        nome = TecNomeEntry.get()
+        matricula = TecCpfEntry.get()
+        especialidade = TecEspecialidadeCombobox.get()
+        tec = Tecnico(nome, matricula, especialidade)
+        Tecnico.listaTecnico.append(tec)
+        Tecnico.addDataBaseTec(Tecnico.listaTecnico)
+        messagebox.showinfo('Dados Salvos', 'Técnico adicionado com sucesso!')
+        addTecnicoScreen.destroy()
+
+    addTecnicoScreen = tk.Toplevel()
+    addTecnicoScreen.title("AT9000 Adicionar Tecnicos")
+    addTecnicoScreen.config(bg="#333", padx=50, pady=50)
+
+    LabelTecNome = Label(addTecnicoScreen, text="Nome", fg="#F5F5F5", bg="#333")
+    LabelTecNome.grid(row=0, column=1, padx=10, pady=2)
+    TecNomeEntry = Entry(addTecnicoScreen, width=20)
+    TecNomeEntry.grid(row=0, column=2)
     
-    TecText = Label(TecnicoScreen, text="Matricula", fg="#F5F5F5", bg="#333")
-    TecText.grid(row=1, column=1, padx=10, pady=2)
+    LabelTecMatricula = Label(addTecnicoScreen, text="Matricula", fg="#F5F5F5", bg="#333")
+    LabelTecMatricula.grid(row=1, column=1, padx=10, pady=2)
+    TecCpfEntry = Entry(addTecnicoScreen, width=20)
+    TecCpfEntry.grid(row=1, column=2)
 
-    TecText = Label(TecnicoScreen, text="Especialidade", fg="#F5F5F5", bg="#333")
-    TecText.grid(row=2, column=1, padx=10, pady=2)
-
-    TecWrite = Entry(TecnicoScreen, width=20)
-    TecWrite.grid(row=0, column=2)
-
-    TecWrite = Entry(TecnicoScreen, width=20)
-    TecWrite.grid(row=1, column=2)
-
-    TecWrite = Entry(TecnicoScreen, width=20)
-    TecWrite.grid(row=2, column=2)
+    LabelTecEspecialidade = Label(addTecnicoScreen, text="Especialidade", fg="#F5F5F5", bg="#333")
+    LabelTecEspecialidade.grid(row=2, column=1, padx=10, pady=2)
+    TecEspecialidadeCombobox = ttk.Combobox(addTecnicoScreen)
+    TecEspecialidadeCombobox['values'] = [especialidade.name for especialidade in Especialidade]
+    TecEspecialidadeCombobox.grid(row=2, column=2, padx=17, pady=2)
     
-    TecButt = BButton(TecnicoScreen, text="Adicionar Tecnico", command=None)
+    TecButt = BButton(addTecnicoScreen, text="Adicionar Tecnico", command=storetTecInMemory)
     TecButt.grid(row=3, column=2, padx=7, pady=20)
 
-# Eu não consegui fazer a bagunça la de cima, então tem so a GUI dessa parte :ThumbsUp:
 def selectTecnicoScreen():
+
+    def updateList():
+        TecListbox.delete(0, END)
+        for tec in Tecnico.listaTecnico:
+            TecListbox.insert(tk.END, tec.nome)
+    
+    def openUpdateClientScreen():
+        indexTuple = TecListbox.curselection()
+        if len(indexTuple) != 0:
+            index = indexTuple[0]
+            updateTecnicoScreen(index)
+    
     TecnicoScreen = tk.Toplevel()
     TecnicoScreen.title("AT9000 Atualizar Tecnico")
     TecnicoScreen.config(bg="#333", padx=50, pady=50)
-    listbox = Listbox(TecnicoScreen, width=40)
-    listbox.grid(row=0, column=0, padx=10, pady=10)
 
-    TecButt = BButton(TecnicoScreen, text="Remover Tecnico", command=None)
+    TecListbox = Listbox(TecnicoScreen, width=40)
+    TecListbox.grid(row=0, column=0, padx=10, pady=10)
+    updateList()
+
+    TecButt = BButton(TecnicoScreen, text="Atualizar Lista", command=updateList)
     TecButt.grid(row=1, column=0, padx=10, pady=5)
 
-    TecButt = BButton(TecnicoScreen, text="Atualizar Tecnico", command=None)
+    TecButt = BButton(TecnicoScreen, text="Atualizar Tecnico", command=openUpdateClientScreen)
     TecButt.grid(row=1, column=1, padx=10, pady=5)
+
+def updateTecnicoScreen(index):
+
+    def updateTecInMemory():
+####### place try except here
+        nome = TecNomeEntry.get()
+        matricula = TecCpfEntry.get()
+        especialidade = TecEspecialidadeCombobox.get()
+        tec = Tecnico(nome, matricula, especialidade)
+        for x in Tecnico.listaTecnico:
+            if x.matricula == matricula:
+                Tecnico.listaTecnico.remove(x)
+
+        Tecnico.delDataBase(matricula)
+        Tecnico.listaTecnico.append(tec)
+        Tecnico.addDataBaseTec(Tecnico.listaTecnico)
+        messagebox.showinfo('Dados Salvos', 'Técnico atualizado com sucesso!')
+        updateTecnicoScreen.destroy()     
+
+    tecToUpdate = Tecnico.listaTecnico[index]
+
+    addTecnicoScreen = tk.Toplevel()
+    addTecnicoScreen.title("AT9000 Adicionar Tecnicos")
+    addTecnicoScreen.config(bg="#333", padx=50, pady=50)
+
+    LabelTecNome = Label(addTecnicoScreen, text="Nome", fg="#F5F5F5", bg="#333")
+    LabelTecNome.grid(row=0, column=1, padx=10, pady=2)
+    TecNomeEntry = Entry(addTecnicoScreen, width=20)
+    TecNomeEntry.grid(row=0, column=2)
+    TecNomeEntry.insert(0, tecToUpdate.nome)
+    
+    LabelTecMatricula = Label(addTecnicoScreen, text="Matricula", fg="#F5F5F5", bg="#333")
+    LabelTecMatricula.grid(row=1, column=1, padx=10, pady=2)
+    TecMatriculaEntry = Entry(addTecnicoScreen, width=20)
+    TecMatriculaEntry.grid(row=1, column=2)
+    TecMatriculaEntry.insert(0, tecToUpdate.matricula)
+
+    LabelTecEspecialidade = Label(addTecnicoScreen, text="Especialidade", fg="#F5F5F5", bg="#333")
+    LabelTecEspecialidade.grid(row=2, column=1, padx=10, pady=2)
+    TecEspecialidadeCombobox = ttk.Combobox(addTecnicoScreen)
+    TecEspecialidadeCombobox['values'] = [especialidade.name for especialidade in Especialidade]
+    TecEspecialidadeCombobox.grid(row=2, column=2, padx=17, pady=2)
+    TecEspecialidadeCombobox.current(int(Especialidade[tecToUpdate.especialidade].value))
+    
+    TecButt = BButton(addTecnicoScreen, text="Adicionar Tecnico", command=updateTecInMemory)
+    TecButt.grid(row=3, column=2, padx=7, pady=20)
+
+    
+
 
 if __name__ == "__main__":
     MenuScreen()
