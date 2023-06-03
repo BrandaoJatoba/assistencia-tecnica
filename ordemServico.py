@@ -1,6 +1,9 @@
+from dataAcess import dataAcess
 import csv
 
-class OrdemServico:
+class OrdemServico(dataAcess):
+
+    CSV_PATH = 'dados/OS.csv'
 
     listaOS = []
     
@@ -30,6 +33,9 @@ class OrdemServico:
     @property
     def equipamento(self):
         return self.__equipamento   
+    @property
+    def log(self):
+        return self.__log   
     @id.setter
     def id(self, id):
         self.__id = id    
@@ -44,12 +50,15 @@ class OrdemServico:
         self.__status = status
     @equipamento.setter
     def equipamento(self, equipamento):
-        self.__equipamento = equipamento    
+        self.__equipamento = equipamento   
+    @log.setter
+    def log(self, log):
+        self.__log = log    
 
     ############################################
     #Adição de OS ao banco de dados
     @staticmethod
-    def addDataBaseOS(lista):
+    def addDataBase(lista):
         listOS = lista
         for x in listOS:
             id = x.id
@@ -64,13 +73,13 @@ class OrdemServico:
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(csvPath, id): 
+    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
         with open(csvPath, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
             for line in lines:
-                if id in line[0].split(';'):
+                if x in line[0].split(';'):
                     break
                 else:
                     index += 1
@@ -81,8 +90,9 @@ class OrdemServico:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
-    def populate():
-        with open('dados/OS.csv', 'r') as arquivo_csv:
+    @staticmethod
+    def populate(csvPath = CSV_PATH):
+        with open(csvPath, 'r') as arquivo_csv:
             arquivo_ordemServico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_ordemServico):
                 if i > 0:

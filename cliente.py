@@ -1,13 +1,15 @@
+from dataAcess import dataAcess
 import os
 import csv
 
-class Cliente:
+class Cliente(dataAcess):
 
     CSV_PATH = 'dados/cliente.csv'
 
-    listaCliente = []
+    listClients = []
 
     def __init__(self, nome, cpf, telefone) -> None:
+        
         self.__nome = nome
         self.__cpf = cpf
         self.__telefone = telefone
@@ -41,55 +43,63 @@ class Cliente:
 
 ### Adição de clientes no banco de dados
     @staticmethod
-    def addSingleCliente(cliente):
+    def addSingleCliente(cliente, csvPath = CSV_PATH):
         lista = [cliente.nome, cliente.cpf, cliente.telefone]
-        with open('dados/cliente.csv', 'a', newline='') as arquivo:
+        with open(csvPath, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')               
                 writer.writerow(lista)
 
     @staticmethod
-    def addDataBaseClient(lista):
-        listClients = lista
-        for x in listClients:
+    def addDataBase(csvPath = CSV_PATH):
+        for x in Cliente.listClients:
             nome = x.nome
             cpf = x.cpf
             tel = x.telefone
-            with open('dados/cliente.csv', 'a', newline='') as arquivo:
+            with open(csvPath, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')
                 cliente = [nome, cpf, tel]
                 writer.writerow(cliente)
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(CPF): 
-        with open(Cliente.CSV_PATH, 'r', newline='') as arquivo:
+    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
+        with open(csvPath, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
             for line in lines:
-                if CPF in line[0].split(';'):
+                if x in line[0].split(';'):
                     break
                 else:
                     index += 1
         lines.remove(lines[index])
 
-        #Reescreverá o arquivo com o elemento desejado excluido
-        with open(Cliente.CSV_PATH, 'w', newline='') as arquivo:
+        #Reescreverá o arquivo com o elemento desejado excluido     
+        with open(csvPath, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
-    def populate():
-        with open(Cliente.CSV_PATH, 'r') as arquivo_csv:
+    def populate(csvPath = CSV_PATH):
+        with open(csvPath, 'r') as arquivo_csv:
             arquivo_cliente = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_cliente):
                 if i > 0:
                     client = Cliente(line[0], line[1], line[2])
                     Cliente.listaCliente.append(client)
 if __name__== "__main__":
-    Cliente.populate()
-    print(Cliente.listaCliente)
-    print(Cliente.listaCliente[0].nome)
-    print(Cliente.listaCliente[0].cpf)
-    print(Cliente.listaCliente[0].telefone)
 
+    ##### Teste do populate()######
+    # Cliente.populate()
+    # print(Cliente.listaCliente)
+    # print(Cliente.listaCliente[0].nome)
+    # print(Cliente.listaCliente[0].cpf)
+    # print(Cliente.listaCliente[0].telefone)
+
+    ##### Teste do addDataBase()######
+    # c_test = Cliente('Josias', '000.000.000-0', '(00)00000000')
+    # Cliente.listClients.append(c_test)
+    # Cliente.addDataBase()
+
+    ##### Teste do addDataBase()######
+    Cliente.delDataBase('000.000.000-0')

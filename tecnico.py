@@ -2,6 +2,7 @@ import especialidade
 import csv
 
 class Tecnico:
+    CSV_PATH = 'dados/tecnico.csv'
 
     listaTecnico = []
 
@@ -35,7 +36,7 @@ class Tecnico:
 
     #Adição de tecnicos no banco de dados
     @staticmethod
-    def addDataBaseTec(lista):
+    def addDataBase(lista):
         listTech = lista
         for x in listTech:
             nome = x.nome
@@ -48,20 +49,26 @@ class Tecnico:
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(csvPath, matricula):
+    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
         with open(csvPath, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
             for line in lines:
-                if matricula in line[0].split(';'):
+                if x in line[0].split(';'):
                     break
                 else:
                     index += 1
         lines.remove(lines[index])
-    
-    def populate():
-        with open('dados/tecnico.csv', 'r') as arquivo_csv:
+
+        #Reescreverá o arquivo com o elemento desejado excluido
+        with open(csvPath, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
+
+    @staticmethod
+    def populate(csvPath = CSV_PATH):
+        with open(csvPath, 'r') as arquivo_csv:
             arquivo_tecnico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_tecnico):
                 if i > 0:
