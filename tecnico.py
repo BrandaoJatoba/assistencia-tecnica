@@ -1,3 +1,4 @@
+from dataAcess import dataAcess
 import especialidade
 import csv
 
