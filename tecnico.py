@@ -2,7 +2,7 @@ from dataAcess import dataAcess
 import especialidade
 import csv
 
-class Tecnico:
+class Tecnico(dataAcess):
     CSV_PATH = 'dados/tecnico.csv'
 
     listaTecnico = []
