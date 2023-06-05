@@ -214,7 +214,6 @@ def TecnicoScreen():
 
     TecButt = BButton(TecnicoScreen, text="Atualizar Tecnico", command=selectTecnicoScreen)
     TecButt.grid(row=0, column=1, padx=15, pady=20)
-    
 
 def AddTecnicoScreen():
 
@@ -284,7 +283,7 @@ def updateTecnicoScreen(index):
     def updateTecInMemory():
 ####### place try except here
         nome = TecNomeEntry.get()
-        matricula = TecCpfEntry.get()
+        matricula = TecMatriculaEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
         tec = Tecnico(nome, matricula, especialidade)
         for x in Tecnico.listaTecnico:
@@ -324,9 +323,6 @@ def updateTecnicoScreen(index):
     
     TecButt = BButton(addTecnicoScreen, text="Adicionar Tecnico", command=updateTecInMemory)
     TecButt.grid(row=3, column=2, padx=7, pady=20)
-
-    
-
 
 if __name__ == "__main__":
     MenuScreen()

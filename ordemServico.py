@@ -12,7 +12,6 @@ class OrdemServico(dataAcess):
         self.__client = client
         self.__tecnico = tecnico
         self.__status = status
-        self.__log = []
         self.__equipamento = equipamento
         pass
 

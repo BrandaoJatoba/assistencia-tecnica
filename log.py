@@ -1,9 +1,12 @@
 import time
 
 class Log:
-    def __init__(self, id, os, comentario) -> None:
+
+    listaDeLogs = []
+
+    def __init__(self, id, id_da_os, comentario) -> None:
         self.__id = id
-        self.__os = os
+        self.__os = id_da_os
         self.__comentario = comentario
         self.__timestamp = time.time()
 
