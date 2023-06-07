@@ -1,4 +1,5 @@
 from dataAcess import dataAcess
+from log import Log
 import csv
 
 class OrdemServico(dataAcess):
@@ -57,15 +58,15 @@ class OrdemServico(dataAcess):
     ############################################
     #Adição de OS ao banco de dados
     @staticmethod
-    def addDataBase(lista):
-        listOS = lista
+    def addDataBase(csvPath = CSV_PATH):
+        listOS = OrdemServico.listaOS
         for x in listOS:
             id = x.id
             client = x.client
             tecnico = x.tecnico
             status = x.status
             log = x.log
-            with open('dados/OS.csv', 'a', newline='') as arquivo:
+            with open(csvPath, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')
                 OS = [id, client, tecnico, status]
                 writer.writerow(OS)
@@ -97,13 +98,31 @@ class OrdemServico(dataAcess):
                 if i > 0:
                     Os = OrdemServico(line[0], line[1], line[2], line[3], line[4])
                     OrdemServico.listaOS.append(Os)
+    
+    @staticmethod
+    def logOS(idUnique): #idOS precisa ser uma string
+        listLogFull = Log.listaDeLogs
+        listLogUnique = []
+        for log in listLogFull:
+            if log.idOS == idUnique:
+                listLogUnique.append(log)
+            else:
+                pass
+        return listLogUnique
+
 
 if __name__== "__main__":
-    OrdemServico.populate()
-    print(OrdemServico.listaOS)
-    print(OrdemServico.listaOS[0].id)
-    print(OrdemServico.listaOS[0].client)
-    print(OrdemServico.listaOS[0].tecnico)
-    print(OrdemServico.listaOS[0].status)
-    print(OrdemServico.listaOS[0].equipamento)
-
+    # OrdemServico.populate()
+    # print(OrdemServico.listaOS)
+    # print(OrdemServico.listaOS[0].id)
+    # print(OrdemServico.listaOS[0].client)
+    # print(OrdemServico.listaOS[0].tecnico)
+    # print(OrdemServico.listaOS[0].status)
+    # print(OrdemServico.listaOS[0].equipamento)
+    
+    #Testando a obtenção dos logs filtrados pela OS
+    Log.populate()
+    listLogUnique = OrdemServico.logOS('001')
+    print(listLogUnique[0])
+    print(listLogUnique[1])
+    print(listLogUnique[2])
