@@ -169,7 +169,7 @@ def Os2():
     Os2Butt1 = BButton(Os2Screen, text="Nova Ordem de Serviço", command=NovaOSScreen)
     Os2Butt1.grid(row=1, column=1, pady=5)
 
-    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=None)
+    Os2Butt2 = BButton(Os2Screen, text="Abrir Ordem de Serviço", command=selectOS)
     Os2Butt2.grid(row=2, column=1, pady=5)
 
 def NovaOSScreen():
@@ -324,6 +324,132 @@ def updateTecnicoScreen(index):
     
     TecButt = BButton(addTecnicoScreen, text="Adicionar Tecnico", command=updateTecInMemory)
     TecButt.grid(row=3, column=2, padx=7, pady=20)
+
+def selectOS():
+    def searchByCpf():
+        cpf = searchBar.get()
+        OSListbox.delete(0, END)
+        for os in OrdemServico.listaOS:
+            if os.client == cpf:
+                OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
+    
+    def openViewOS():
+        osId = OSListbox.get(ANCHOR)
+        if osId:
+            osId = osId[1:7]
+            selectedOs = [os for os in OrdemServico.listaOS if os.id == osId]
+            if len(selectedOs)==0:
+                print("Error")
+            else:
+                os = selectedOs[0]
+            ViewOS(os)
+        else:
+            messagebox.showinfo('Error', 'Nenhuma OS selecionada')
+    
+    selectOS = tk.Toplevel()
+    selectOS.title("AT9000 Selecionar Ordem de Serviço")
+    selectOS.config(bg="#333", padx=50, pady=50)
+
+    searchBar = tk.Entry(selectOS, width=20)
+    searchBar.grid(row=0, column=1)
+
+    OSListbox = Listbox(selectOS, width=40)
+    OSListbox.grid(row=1, column=0, padx=10, pady=10)
+    
+    osSearchButton = BButton(selectOS, text="Pesquisar OS por CPF", command=searchByCpf)
+    osSearchButton.grid(row=1, column=1, padx=10, pady=5)
+    osOpenButton = BButton(selectOS, text="Abrir OS Selecionada", command=openViewOS)
+    osOpenButton.grid(row=2, column=1, padx=10, pady=5)
+
+def ViewOS(selectedOs):
+    def NewComentScreen():
+        NewComentScreen = tk.Toplevel()
+        NewComentScreen.title("AT9000 Novo Comentario")
+        NewComentScreen.config(bg="#333", padx=25, pady=25)
+
+        NCLabel = Label(NewComentScreen, text="Comentário", fg="#F5F5F5", bg="#333")
+        NCLabel.grid(row=0, column=0, padx=10, pady=2, sticky=N)
+
+        NCEntry = Text(NewComentScreen, height=10 ,width=30)
+        NCEntry.grid(row=0, column=1, padx=10, pady=2, sticky=S)
+
+        NCButton = BButton(NewComentScreen, text=("Adicionar Comentário"), command=None)
+        NCButton.grid(row=1, column=1, padx=10, pady=2, sticky=W)
+
+        # def timestamp(self):
+        # savedTime = time.localtime(self.__timestamp)
+        # time_string = time.strftime("%d/%m/%Y, %H:%M:%S", savedTime)
+        # return time_string
+
+    def AttScreen():
+        AttScreen = tk.Toplevel()
+        AttScreen.title("AT9000 Atualizar Status")
+        AttScreen.config(bg="#333", padx=25, pady=25)
+
+        StatusLabel = Label(AttScreen, text="Status", fg="#F5F5F5", bg="#333")
+        StatusLabel.grid(row=0, column=0, padx=10, pady=2)
+
+        StatusComboBox = ttk.Combobox(AttScreen)
+        # Joia
+        StatusComboBox.grid(row=0, column=1, padx=10, pady=2)
+
+        StatusButton = BButton(AttScreen, text="Atualizar", command=None)
+        StatusButton.grid(row=1, column=1, padx=10, pady=2)
+    
+    ViewOSScreen = Tk()
+    ViewOSScreen.title("AT9000 Visualizar OS")
+    ViewOSScreen.config(bg="#333", padx=50, pady=50)
+    
+    CodigoLabel = Label(ViewOSScreen, text="Código :", fg="#F5F5F5", bg="#333")
+    CodigoText = Label(ViewOSScreen, text=selectedOs.id, fg="#F5F5F5", bg="#333")
+    CodigoLabel.grid(row=0, column=0, padx=10, pady=2, sticky=W)
+    CodigoText.grid(row=0, column=1, padx=10, pady=2, sticky=W)
+
+    TecnicoLabel = Label(ViewOSScreen, text="Técnico :", fg="#F5F5F5", bg="#333")
+    TecnicoText = Label(ViewOSScreen, text=[tec.nome for tec in Tecnico.listaTecnico if tec.matricula == selectedOs.tecnico][0], fg="#F5F5F5", bg="#333")
+    TecnicoLabel.grid(row=0, column=3, padx=10, pady=2, sticky=E)
+    TecnicoText.grid(row=0, column=4, padx=10, pady=2, sticky=W)
+
+    ClienteLabel = Label(ViewOSScreen, text="Cliente :", fg="#F5F5F5", bg="#333")
+    ClienteText = Label(ViewOSScreen, text=[cliente.nome for cliente in Cliente.listaCliente if cliente.cpf == selectedOs.client][0], fg="#F5F5F5", bg="#333")
+    ClienteLabel.grid(row=1, column=0, padx=10, pady=2, sticky=W)
+    ClienteText.grid(row=1, column=1, padx=10, pady=2, sticky=W)
+
+    StatusLabel = Label(ViewOSScreen, text="Status :", fg="#F5F5F5", bg="#333")
+    StatusText = Label(ViewOSScreen, text=selectedOs.status, fg="#F5F5F5", bg="#333")
+    StatusLabel.grid(row=1, column=3, padx=10, pady=2, sticky=E)
+    StatusText.grid(row=1, column=4, padx=10, pady=2, sticky=W)
+
+    Divisiao = Label(ViewOSScreen, text="     ", fg="#F5F5F5", bg="#333")
+    Divisiao.grid(row=2, column=3, padx=10, pady=10)
+
+    EquipamentoLabel = Label(ViewOSScreen, text="Equipamento :", fg="#F5F5F5", bg="#333")
+    EquipamentoText = Label(ViewOSScreen, text=selectedOs.equipamento, fg="#F5F5F5", bg="#333")
+    EquipamentoLabel.grid(row=3, column=0, padx=10, pady=2, sticky=W)
+    EquipamentoText.grid(row=3, column=1, padx=10, pady=2, sticky=W)    
+    
+    descricaoLabel = Label(ViewOSScreen, text="Descrição do Problema :", fg="#F5F5F5", bg="#333")
+    descricaoLabel.grid(row=3, column=0, padx=10, pady=2, sticky=W)
+    
+    descricaoText = Label(ViewOSScreen, text=selectedOs.descricao, fg="#F5F5F5", bg="#333")
+    descricaoText.grid(row=3, column=1, padx=10, pady=2, sticky=W)
+
+    ComentariosLabel = Label(ViewOSScreen, text="Comentários :", fg="#F5F5F5", bg="#333")
+    ComentariosLabel.grid(row=4, column=0, padx=10, pady=2, sticky=W)
+    
+    comentarios = [log for log in Log.listaDeLogs if log.idOS == selectedOs.id]
+    scrollbar = tk.Scrollbar(orient="horizontal")
+    ComentariosText = Text(ViewOSScreen, fg="#F5F5F5", bg="#333", xscrollcommand=scrollbar.set)
+    ComentariosText.grid(row=5, column=1, padx=10, pady=2, sticky=W)
+    for comentario in comentarios:
+        ComentariosText.insert(END, str(comentario) + "\n")
+    ComentariosText.config(state=DISABLED)
+
+    NewComentButton = BButton(ViewOSScreen, text=("Adicionar Comentário"), command=NewComentScreen)
+    NewComentButton.grid(row=6, column=1, padx=10, pady=2, sticky=W)
+
+    AttButton = BButton(ViewOSScreen, text=("Atualizar Status"), command=AttScreen)
+    AttButton.grid(row=6, column=1, padx=10, pady=2, sticky=E)
 
 if __name__ == "__main__":
     MenuScreen()

@@ -1,5 +1,5 @@
-id;idOS;Comentario
-001;001;Computador designado para o técnico menino da porteira
-002;001;Computador em questão apresenta falha na memória, necessário de uma nova
-003;002;Notebook designado para a técnica Barbie
-004;001;Computador pronto para ser entregue.
+id;idOS;Comentario;timestamp
+001;000001;Computador designado para o técnico Manolo;01/06/2023
+002;000001;Computador em questão apresenta falha na memória, necessário de uma nova;02/06/2023
+003;000002;Notebook designado para a técnica Barbie;02/06/2023
+004;000001;Computador pronto para ser entregue.;03/06/2023

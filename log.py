@@ -8,11 +8,11 @@ class Log(dataAcess):
 
     listaDeLogs = []
 
-    def __init__(self, id, idOS, comentario) -> None:
+    def __init__(self, id, idOS, comentario, timestamp) -> None:
         self.__id = id
         self.__idOS = idOS
         self.__comentario = comentario
-        self.__timestamp = time.time()
+        self.__timestamp = timestamp
 
 ########### GETTERS E SETTERS #############
     @property
@@ -26,9 +26,7 @@ class Log(dataAcess):
         return self.__comentario    
     @property
     def timestamp(self):
-        savedTime = time.localtime(self.__timestamp)
-        time_string = time.strftime("%d/%m/%Y, %H:%M:%S", savedTime)
-        return time_string
+        return self.__timestamp
     @id.setter
     def id(self, id):
         self.__id = id
@@ -78,7 +76,7 @@ class Log(dataAcess):
             arquivo_Log = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_Log):
                 if i > 0:
-                    log = Log(line[0], line[1], line[2])
+                    log = Log(line[0], line[1], line[2], line[3])
                     Log.listaDeLogs.append(log)
 
     def __str__(self):
