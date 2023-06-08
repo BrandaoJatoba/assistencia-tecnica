@@ -1,2 +1,2 @@
-id;Client;Tecnico;Status;Equipamento
-1;123.333.789-30;1222;ABERTO;OS aberto para testes internos.;
+id;Client;Tecnico;Status;Descrição;Equipamento
+1;123.333.789-30;1222;ABERTO;Equipamento Generico;OS aberto para testes internos.;

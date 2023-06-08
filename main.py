@@ -7,6 +7,7 @@ if __name__ == "__main__":
     Cliente.populate()
     Tecnico.populate()
     OrdemServico.populate()
+    Log.populate()
     
 # Iniciando Interface Gráfica
     MenuScreen()

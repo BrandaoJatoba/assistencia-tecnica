@@ -6,7 +6,7 @@ class Cliente(dataAcess):
 
     CSV_PATH = 'dados/cliente.csv'
 
-    listClients = []
+    listaCliente = []
 
     def __init__(self, nome, cpf, telefone) -> None:
         
@@ -43,27 +43,27 @@ class Cliente(dataAcess):
 
 ### Adição de clientes no banco de dados
     @staticmethod
-    def addSingleCliente(cliente, csvPath = CSV_PATH):
+    def addSingleCliente(cliente):
         lista = [cliente.nome, cliente.cpf, cliente.telefone]
-        with open(csvPath, 'a', newline='') as arquivo:
+        with open(Cliente.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')               
                 writer.writerow(lista)
 
     @staticmethod
-    def addDataBase(csvPath = CSV_PATH):
-        for x in Cliente.listClients:
+    def addDataBase():
+        for x in Cliente.listaCliente:
             nome = x.nome
             cpf = x.cpf
             tel = x.telefone
-            with open(csvPath, 'a', newline='') as arquivo:
+            with open(Cliente.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')
                 cliente = [nome, cpf, tel]
                 writer.writerow(cliente)
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
-        with open(csvPath, 'r', newline='') as arquivo:
+    def delDataBase(x): #Sendo x = CPF 
+        with open(Cliente.CSV_PATH, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
@@ -75,13 +75,13 @@ class Cliente(dataAcess):
         lines.remove(lines[index])
 
         #Reescreverá o arquivo com o elemento desejado excluido     
-        with open(csvPath, 'w', newline='') as arquivo:
+        with open(Cliente.CSV_PATH, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
-    def populate(csvPath = CSV_PATH):
-        with open(csvPath, 'r') as arquivo_csv:
+    def populate():
+        with open(Cliente.CSV_PATH, 'r') as arquivo_csv:
             arquivo_cliente = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_cliente):
                 if i > 0:

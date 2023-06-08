@@ -8,12 +8,13 @@ class OrdemServico(dataAcess):
 
     listaOS = []
     
-    def __init__(self, id, client, tecnico, status, equipamento) -> None:
+    def __init__(self, id, client, tecnico, status, equipamento, descricao) -> None:
         self.__id = id
         self.__client = client
         self.__tecnico = tecnico
         self.__status = status
         self.__equipamento = equipamento
+        self.__descricao = descricao
         pass
 
     ###### GETTERS AND SETTERS #################
@@ -34,8 +35,8 @@ class OrdemServico(dataAcess):
     def equipamento(self):
         return self.__equipamento   
     @property
-    def log(self):
-        return self.__log   
+    def descricao(self):
+        return self.__descricao   
     @id.setter
     def id(self, id):
         self.__id = id    
@@ -51,9 +52,9 @@ class OrdemServico(dataAcess):
     @equipamento.setter
     def equipamento(self, equipamento):
         self.__equipamento = equipamento   
-    @log.setter
-    def log(self, log):
-        self.__log = log    
+    @descricao.setter
+    def descricao(self, descricao):
+        self.__descricao = descricao  
 
     ############################################
     #Adição de OS ao banco de dados
@@ -96,7 +97,7 @@ class OrdemServico(dataAcess):
             arquivo_ordemServico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_ordemServico):
                 if i > 0:
-                    Os = OrdemServico(line[0], line[1], line[2], line[3], line[4])
+                    Os = OrdemServico(line[0], line[1], line[2], line[3], line[4], line[5])
                     OrdemServico.listaOS.append(Os)
     
     @staticmethod

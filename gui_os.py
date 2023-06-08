@@ -7,6 +7,7 @@ from tecnico import Tecnico
 from ordemServico import OrdemServico
 from especialidade import Especialidade
 from status import Status
+from log import Log
 
 OS_EXEMPLO = {
         'os_id'         : 2,

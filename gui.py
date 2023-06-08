@@ -6,6 +6,7 @@ from cliente import Cliente
 from tecnico import Tecnico
 from ordemServico import OrdemServico
 from especialidade import Especialidade
+from log import Log
 
 def BButton(master, text, command):
     style = ttk.Style()
@@ -193,13 +194,13 @@ def NovaOSScreen():
     NOsLabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=0, column=1, padx=10, pady=(2, 10))
 
-    NOsEntry = Text(NOsScreen, height=10, width=30)
-    NOsEntry.grid(row=1, column=1, padx=10, pady=2, rowspan=5)
+    issueDescriptionEntry = Text(NOsScreen, height=10, width=30)
+    issueDescriptionEntry.grid(row=1, column=1, padx=10, pady=2, rowspan=5)
 
     NOsLabel = Label(NOsScreen, text="Equipamento(s)", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=6, column=0, padx=10, pady=2)
-    equipamentDescription = Text(NOsScreen, height=10, width=30)
-    equipamentDescription.grid(row=7, column=0, padx=10, pady=2, rowspan=5)
+    equipamentDescriptionEntry = Text(NOsScreen, height=10, width=30)
+    equipamentDescriptionEntry.grid(row=7, column=0, padx=10, pady=2, rowspan=5)
 
     NOsButton = BButton(NOsScreen, text="Salvar", command=None)
     NOsButton.grid(row=6, column=1, padx=10, pady=2)

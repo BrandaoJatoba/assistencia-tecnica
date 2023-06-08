@@ -2,14 +2,16 @@ from abc import ABC, abstractmethod
 
 class dataAcess(ABC):
     
+    CSV_PATH = ''
+
     @abstractmethod
-    def addDataBase(csvPath):
+    def addDataBase():
         pass
 
     @abstractmethod
-    def delDataBase(x, csvPath): #Para x sendo o atributo de cada objeto de classe que o torne único
+    def delDataBase(identifier): #Para 'identifier' sendo o atributo de cada objeto de classe que o torne único
         pass   
 
     @abstractmethod
-    def populate(csvPath):
+    def populate():
         pass
