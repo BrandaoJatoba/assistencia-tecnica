@@ -9,6 +9,7 @@ from ordemServico import OrdemServico
 from especialidade import Especialidade
 from log import Log
 from status import Status
+import codecs
 
 
 def BButton(master, text, command):
@@ -185,8 +186,8 @@ def NovaOSScreen():
         tecnico = TecCombobox.get()
         tecnico = tecnico.split(" - ")
         status = Status.ABERTO.name
-        equipamento = equipamentDescriptionEntry.get("1.0",'end-1c')
-        descricao = issueDescriptionEntry.get("1.0",'end-1c')
+        equipamento = equipamentDescriptionEntry.get("1.0",'end-1c').encode("unicode_escape").decode("utf-8")
+        descricao = issueDescriptionEntry.get("1.0",'end-1c').encode("unicode_escape").decode("utf-8")
         os = OrdemServico(id, client[0], tecnico[0], status, equipamento, descricao)
         OrdemServico.listaOS.append(os)
         OrdemServico.addDataBase(os)
@@ -471,14 +472,14 @@ def ViewOS(selectedOs):
     StatusText.grid(row=1, column=4, padx=10, pady=2, sticky=W)
 
     EquipamentoLabel = Label(ViewOSScreen, text="Equipamento :", fg="#F5F5F5", bg="#333")
-    EquipamentoText = Label(ViewOSScreen, text=selectedOs.equipamento, fg="#F5F5F5", bg="#333")
+    EquipamentoText = Label(ViewOSScreen, text=str(selectedOs.equipamento).encode("utf-8").decode('unicode_escape'), fg="#F5F5F5", bg="#333")
     EquipamentoLabel.grid(row=2, column=0, padx=10, pady=2, sticky=W)
     EquipamentoText.grid(row=2, column=1, padx=10, pady=2, sticky=W)    
     
     descricaoLabel = Label(ViewOSScreen, text="Descrição do Problema :", fg="#F5F5F5", bg="#333")
     descricaoLabel.grid(row=3, column=0, padx=10, pady=2, sticky=W)
     
-    descricaoText = Label(ViewOSScreen, text=selectedOs.descricao, fg="#F5F5F5", bg="#333")
+    descricaoText = Label(ViewOSScreen, text=str(selectedOs.descricao).encode("utf-8").decode('unicode_escape'), fg="#F5F5F5", bg="#333")
     descricaoText.grid(row=3, column=1, padx=10, pady=2, sticky=W)
 
     ComentariosLabel = Label(ViewOSScreen, text="Comentários :", fg="#F5F5F5", bg="#333")
