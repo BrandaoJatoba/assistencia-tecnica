@@ -41,24 +41,24 @@ class Cliente(dataAcess):
 
 # Outros Métodos
 
-### Adição de clientes no banco de dados
+    # Adição de clientes no banco de dados
     @staticmethod
-    def addSingleItem(cliente):
+    def addDataBase(cliente):
         lista = [cliente.nome, cliente.cpf, cliente.telefone]
         with open(Cliente.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')               
                 writer.writerow(lista)
-
+                
+    # Método para atualizar o DataBase
     @staticmethod
-    def addDataBase():
-        for x in Cliente.listaCliente:
-            nome = x.nome
-            cpf = x.cpf
-            tel = x.telefone
-            with open(Cliente.CSV_PATH, 'a', newline='') as arquivo:
-                writer = csv.writer(arquivo, delimiter= ';')
-                cliente = [nome, cpf, tel]
-                writer.writerow(cliente)
+    def refreshDataBase():
+        with open(Cliente.CSV_PATH, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+        with open(Cliente.CSV_PATH, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
+
 
     #Remoção de elementos do banco de dados
     @staticmethod
@@ -89,17 +89,9 @@ class Cliente(dataAcess):
                     Cliente.listaCliente.append(client)
 if __name__== "__main__":
 
-    ##### Teste do populate()######
-    # Cliente.populate()
+    Cliente.populate()
     # print(Cliente.listaCliente)
-    # print(Cliente.listaCliente[0].nome)
-    # print(Cliente.listaCliente[0].cpf)
-    # print(Cliente.listaCliente[0].telefone)
-
-    ##### Teste do addDataBase()######
-    # c_test = Cliente('Josias', '000.000.000-0', '(00)00000000')
-    # Cliente.listClients.append(c_test)
-    # Cliente.addDataBase()
-
-    ##### Teste do addDataBase()######
-    Cliente.delDataBase('000.000.000-0')
+    # c1 = Cliente('teste', 'teste', 'teste')
+    # Cliente.addDataBase(c1)
+    # print(Cliente.listaCliente)
+    # Cliente.refreshDataBase()

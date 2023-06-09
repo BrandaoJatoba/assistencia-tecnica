@@ -45,16 +45,20 @@ class Log(dataAcess):
 # Outros Métodos
 
     @staticmethod
-    def addDataBase():
-        for x in Log.listaDeLogs:
-            id = x.id
-            idOS = x.idOS
-            comentario = x.comentario
-            timestamp = x.timestamp
-            with open(Log.CSV_PATH, 'a', newline='') as arquivo:
-                writer = csv.writer(arquivo, delimiter= ';')
-                log = [id, idOS, comentario, timestamp]
-                writer.writerow(log)
+    def addDataBase(log):
+        lista = [log.id, log.idOS, log.comentario, log.timestamp]
+        with open(Log.CSV_PATH, 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')               
+                writer.writerow(lista)  
+
+    @staticmethod
+    def refreshDataBase():
+        with open(Log.CSV_PATH, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+        with open(Log.CSV_PATH, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
 
     @staticmethod
     def delDataBase(x): #Sendo x = id 
@@ -111,7 +115,7 @@ if __name__== "__main__":
     # # Log.listaDeLogs.append(logTeste2)
     # # Log.listaDeLogs.append(logTeste3)
     # Log.listaDeLogs.append(logTeste4)
-    # Log.addDataBase()
+    # Log.refreshDataBase()
 
     # #Teste do método de remoção
     # # Log.delDataBase('001')

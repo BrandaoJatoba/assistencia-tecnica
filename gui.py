@@ -56,7 +56,7 @@ def AddClientScreen():
         phone = phoneEntry.get()
         client = Cliente(name, cpf, phone)
         Cliente.listaCliente.append(client)
-        Cliente.addSingleItem(client)
+        Cliente.addDataBase(client)
         messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
         AddClientScreen.destroy()
         
@@ -101,7 +101,7 @@ def updateClientScreen(index):
         Cliente.delDataBase(cpf)
 
         Cliente.listaCliente.append(client)
-        Cliente.addSingleItem(client)
+        Cliente.addDataBase(client)
 
         messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
         clientToUpdateScreen.destroy()
@@ -228,7 +228,7 @@ def AddTecnicoScreen():
         especialidade = TecEspecialidadeCombobox.get()
         tec = Tecnico(nome, matricula, especialidade)
         Tecnico.listaTecnico.append(tec)
-        Tecnico.addDataBaseTec(Tecnico.listaTecnico)
+        Tecnico.addDataBase(tec)
         messagebox.showinfo('Dados Salvos', 'Técnico adicionado com sucesso!')
         addTecnicoScreen.destroy()
 
@@ -296,7 +296,7 @@ def updateTecnicoScreen(index):
 
         Tecnico.delDataBase(matricula)
         Tecnico.listaTecnico.append(tec)
-        Tecnico.addDataBaseTec(Tecnico.listaTecnico)
+        Tecnico.refreshDataBaseTec(Tecnico.listaTecnico)
         messagebox.showinfo('Dados Salvos', 'Técnico atualizado com sucesso!')
         updateTecnicoScreen.destroy()     
 
@@ -393,7 +393,7 @@ def NewComentScreen(selectedOs):
             Log.currentlogId()
             log = Log((Log.logCount + 1), selectedOs.id, logText, timeString)
             Log.listaDeLogs.append(log)
-            Log.addDataBase()
+            Log.refreshDataBase()
             messagebox.showinfo('Log', 'Novo log salvo com sucesso')
             NewComentScreen.destroy()
 

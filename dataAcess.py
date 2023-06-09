@@ -5,11 +5,11 @@ class dataAcess(ABC):
     CSV_PATH = ''
 
     @abstractmethod
-    def addSingleItem(item):
+    def addDataBase(item):
         pass    
     
     @abstractmethod
-    def addDataBase():
+    def refreshDataBase():
         pass
 
     @abstractmethod

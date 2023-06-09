@@ -57,20 +57,23 @@ class OrdemServico(dataAcess):
         self.__descricao = descricao  
 
     ############################################
-    #Adição de OS ao banco de dados
+    #Adição de OS no banco de dados
     @staticmethod
-    def addDataBase(csvPath = CSV_PATH):
-        listOS = OrdemServico.listaOS
-        for x in listOS:
-            id = x.id
-            client = x.client
-            tecnico = x.tecnico
-            status = x.status
-            log = x.log
-            with open(csvPath, 'a', newline='') as arquivo:
-                writer = csv.writer(arquivo, delimiter= ';')
-                OS = [id, client, tecnico, status]
-                writer.writerow(OS)
+    def addDataBase(os):
+        lista = [os.id, os.client, os.tecnico, os.status, os.equipamento, os.descricao]
+        with open(OrdemServico.CSV_PATH, 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')               
+                writer.writerow(lista)      
+    
+    
+    @staticmethod
+    def refreshDataBase():
+        with open(OrdemServico.CSV_PATH, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+        with open(OrdemServico.CSV_PATH, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
 
     #Remoção de elementos do banco de dados
     @staticmethod

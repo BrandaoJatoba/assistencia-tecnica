@@ -37,16 +37,20 @@ class Tecnico(dataAcess):
 
     #Adição de tecnicos no banco de dados
     @staticmethod
-    def addDataBase(lista):
-        listTech = lista
-        for x in listTech:
-            nome = x.nome
-            matricula = x.matricula
-            especialidade = x.especialidade
-            with open('dados/tecnico.csv', 'a', newline='') as arquivo:
-                writer = csv.writer(arquivo, delimiter= ';')
-                tecnico = [nome, matricula, especialidade]
-                writer.writerow(tecnico)
+    def addDataBase(tec):
+        lista = [tec.nome, tec.matricula, tec.especialidade]
+        with open(Tecnico.CSV_PATH, 'a', newline='') as arquivo:
+                writer = csv.writer(arquivo, delimiter= ';')               
+                writer.writerow(lista)  
+
+    @staticmethod
+    def refreshDataBase():
+        with open(Tecnico.CSV_PATH, 'r', newline='') as arquivo:
+            reader = csv.reader(arquivo)
+            lines = list(reader)
+        with open(Tecnico.CSV_PATH, 'w', newline='') as arquivo:
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
 
     #Remoção de elementos do banco de dados
     @staticmethod
