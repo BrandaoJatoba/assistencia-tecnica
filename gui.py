@@ -176,6 +176,23 @@ def Os2():
     Os2Butt2.grid(row=2, column=1, pady=5)
 
 def NovaOSScreen():
+
+    def saveNewOs():
+        ####### place try except here
+        id = str(OrdemServico.osCount + 1).zfill(6)        
+        client = ClientCombobox.get()
+        client = client.split(" - ")        
+        tecnico = TecCombobox.get()
+        tecnico = tecnico.split(" - ")
+        status = Status.ABERTO.name
+        equipamento = equipamentDescriptionEntry.get("1.0",'end-1c')
+        descricao = issueDescriptionEntry.get("1.0",'end-1c')
+        os = OrdemServico(id, client[0], tecnico[0], status, equipamento, descricao)
+        OrdemServico.listaOS.append(os)
+        OrdemServico.addDataBase(os)
+        messagebox.showinfo('Dados Salvos', 'Ordem de Serviço Aberta com sucesso!')
+        NOsScreen.destroy()
+
     NOsScreen = tk.Toplevel()
     NOsScreen.title("AT9000 Nova OS")
     NOsScreen.config(bg="#333", padx=50, pady=50)
@@ -183,16 +200,16 @@ def NovaOSScreen():
     NOsLabel = Label(NOsScreen, text="Selecionar Cliente", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=0, column=0, padx=10, pady=(2, 10))
 
-    NOsCombobox = ttk.Combobox(NOsScreen)
-    NOsCombobox['values'] = ["".join(x.cpf+" - "+x.nome) for x in Cliente.listaCliente]
-    NOsCombobox.grid(row=1, column=0, padx=20, pady=2)
+    ClientCombobox = ttk.Combobox(NOsScreen)
+    ClientCombobox['values'] = ["".join(x.cpf+" - "+x.nome) for x in Cliente.listaCliente]
+    ClientCombobox.grid(row=1, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=2, column=0, padx=10, pady=2)
 
-    NOsCombobox = ttk.Combobox(NOsScreen)
-    NOsCombobox['values'] = [tecnico.nome for tecnico in Tecnico.listaTecnico]
-    NOsCombobox.grid(row=3, column=0, padx=20, pady=2)
+    TecCombobox = ttk.Combobox(NOsScreen)
+    TecCombobox['values'] = ["".join(tecnico.matricula+" - "+tecnico.nome) for tecnico in Tecnico.listaTecnico]
+    TecCombobox.grid(row=3, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=0, column=1, padx=10, pady=(2, 10))
@@ -205,7 +222,7 @@ def NovaOSScreen():
     equipamentDescriptionEntry = Text(NOsScreen, height=10, width=30)
     equipamentDescriptionEntry.grid(row=7, column=0, padx=10, pady=2, rowspan=5)
 
-    NOsButton = BButton(NOsScreen, text="Salvar", command=None)
+    NOsButton = BButton(NOsScreen, text="Salvar", command=saveNewOs)
     NOsButton.grid(row=6, column=1, padx=10, pady=2)
 
 def TecnicoScreen(): 
@@ -364,28 +381,8 @@ def selectOS():
     osOpenButton = BButton(selectOS, text="Abrir OS Selecionada", command=openViewOS)
     osOpenButton.grid(row=2, column=1, padx=10, pady=5)
 
-def AttScreen(selectedOs):
-
-    def updateStatus():
-        pass
-
-    AttScreen = tk.Toplevel()
-    AttScreen.title("AT9000 Atualizar Status")
-    AttScreen.config(bg="#333", padx=25, pady=25)
-
-    StatusLabel = Label(AttScreen, text="Status", fg="#F5F5F5", bg="#333")
-    StatusLabel.grid(row=0, column=0, padx=10, pady=2)
-
-    StatusComboBox = ttk.Combobox(AttScreen)
-    StatusComboBox['value'] = [status.name for status in Status]
-    StatusComboBox.current(int(Status[selectedOs.status].value))
-    StatusComboBox.grid(row=0, column=1, padx=10, pady=2)
-
-    StatusButton = BButton(AttScreen, text="Atualizar", command=updateStatus)
-    StatusButton.grid(row=1, column=1, padx=10, pady=2)
-
-def NewComentScreen(selectedOs):
-        
+def ViewOS(selectedOs):
+    def NewComentScreen(selectedOs):    
         def saveLog():
             logText = newLogEntry.get("1.0",'end-1c')
             savedTime = time.localtime(time.time())
@@ -393,9 +390,9 @@ def NewComentScreen(selectedOs):
             Log.currentlogId()
             log = Log((Log.logCount + 1), selectedOs.id, logText, timeString)
             Log.listaDeLogs.append(log)
-            Log.refreshDataBase()
+            Log.addDataBase(log)
+            newLogScreen.destroy()
             messagebox.showinfo('Log', 'Novo log salvo com sucesso')
-            NewComentScreen.destroy()
 
         newLogScreen = tk.Toplevel()
         newLogScreen.title("AT9000 Novo Comentario")
@@ -410,8 +407,45 @@ def NewComentScreen(selectedOs):
         newLogButton = BButton(newLogScreen, text=("Adicionar Comentário"), command=saveLog)
         newLogButton.grid(row=1, column=1, padx=10, pady=2, sticky=W)
 
-def ViewOS(selectedOs):
-      
+        newLogScreen.wait_window(newLogScreen)
+
+        ComentariosText.config(state=NORMAL)
+        ComentariosText.delete('1.0', END)
+        comentarios = [log for log in Log.listaDeLogs if log.idOS == selectedOs.id]
+        for comentario in comentarios:
+            ComentariosText.insert(END, str(comentario) + "\n")
+        ComentariosText.config(state=DISABLED)
+
+    def AttScreen(selectedOs):
+
+        def updateStatus():
+            selectedOs.status = StatusComboBox.get()
+            for x in OrdemServico.listaOS:
+                if x.id == selectedOs.id:
+                    OrdemServico.listaOS.remove(x)
+            OrdemServico.delDataBase(selectedOs.id)
+            OrdemServico.listaOS.append(selectedOs)
+            OrdemServico.addDataBase(selectedOs)
+            messagebox.showinfo('Dados Salvos', 'Status atualizado com sucesso!')
+            AttScreen.destroy()
+
+        AttScreen = tk.Toplevel()
+        AttScreen.title("AT9000 Atualizar Status")
+        AttScreen.config(bg="#333", padx=25, pady=25)
+
+        StatusLabel = Label(AttScreen, text="Status", fg="#F5F5F5", bg="#333")
+        StatusLabel.grid(row=0, column=0, padx=10, pady=2)
+
+        StatusComboBox = ttk.Combobox(AttScreen)
+        StatusComboBox['value'] = [status.name for status in Status]
+        StatusComboBox.current(int(Status[selectedOs.status].value))
+        StatusComboBox.grid(row=0, column=1, padx=10, pady=2)
+
+        StatusButton = BButton(AttScreen, text="Atualizar", command=updateStatus)
+        StatusButton.grid(row=1, column=1, padx=10, pady=2)
+        AttScreen.wait_window(AttScreen)
+        StatusText.config(text = selectedOs.status)
+
     ViewOSScreen = Tk()
     ViewOSScreen.title("AT9000 Visualizar OS")
     ViewOSScreen.config(bg="#333", padx=50, pady=50)
@@ -436,13 +470,13 @@ def ViewOS(selectedOs):
     StatusLabel.grid(row=1, column=3, padx=10, pady=2, sticky=E)
     StatusText.grid(row=1, column=4, padx=10, pady=2, sticky=W)
 
-    Divisiao = Label(ViewOSScreen, text="     ", fg="#F5F5F5", bg="#333")
-    Divisiao.grid(row=2, column=3, padx=10, pady=10)
+    # Divisiao = Label(ViewOSScreen, text="     ", fg="#F5F5F5", bg="#333")
+    # Divisiao.grid(row=2, column=3, padx=10, pady=10)
 
     EquipamentoLabel = Label(ViewOSScreen, text="Equipamento :", fg="#F5F5F5", bg="#333")
     EquipamentoText = Label(ViewOSScreen, text=selectedOs.equipamento, fg="#F5F5F5", bg="#333")
-    EquipamentoLabel.grid(row=3, column=0, padx=10, pady=2, sticky=W)
-    EquipamentoText.grid(row=3, column=1, padx=10, pady=2, sticky=W)    
+    EquipamentoLabel.grid(row=2, column=0, padx=10, pady=2, sticky=W)
+    EquipamentoText.grid(row=2, column=1, padx=10, pady=2, sticky=W)    
     
     descricaoLabel = Label(ViewOSScreen, text="Descrição do Problema :", fg="#F5F5F5", bg="#333")
     descricaoLabel.grid(row=3, column=0, padx=10, pady=2, sticky=W)

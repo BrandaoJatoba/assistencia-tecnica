@@ -7,6 +7,7 @@ class OrdemServico(dataAcess):
     CSV_PATH = 'dados/OS.csv'
 
     listaOS = []
+    osCount = 0
     
     def __init__(self, id, client, tecnico, status, equipamento, descricao) -> None:
         self.__id = id
@@ -77,8 +78,8 @@ class OrdemServico(dataAcess):
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
-        with open(csvPath, 'r', newline='') as arquivo:
+    def delDataBase(x): #Sendo x = id 
+        with open(OrdemServico.CSV_PATH, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
@@ -90,18 +91,19 @@ class OrdemServico(dataAcess):
         lines.remove(lines[index])
 
         #Reescreverá o arquivo com o elemento desejado excluido
-        with open(csvPath, 'w', newline='') as arquivo:
+        with open(OrdemServico.CSV_PATH, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
-    def populate(csvPath = CSV_PATH):
-        with open(csvPath, 'r') as arquivo_csv:
+    def populate():
+        with open(OrdemServico.CSV_PATH, 'r') as arquivo_csv:
             arquivo_ordemServico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_ordemServico):
                 if i > 0:
                     Os = OrdemServico(line[0], line[1], line[2], line[3], line[4], line[5])
                     OrdemServico.listaOS.append(Os)
+        OrdemServico.currentOsId()
     
     @staticmethod
     def logOS(idUnique): #idOS precisa ser uma string
@@ -113,20 +115,8 @@ class OrdemServico(dataAcess):
             else:
                 pass
         return listLogUnique
-
-
-if __name__== "__main__":
-    # OrdemServico.populate()
-    # print(OrdemServico.listaOS)
-    # print(OrdemServico.listaOS[0].id)
-    # print(OrdemServico.listaOS[0].client)
-    # print(OrdemServico.listaOS[0].tecnico)
-    # print(OrdemServico.listaOS[0].status)
-    # print(OrdemServico.listaOS[0].equipamento)
     
-    #Testando a obtenção dos logs filtrados pela OS
-    Log.populate()
-    listLogUnique = OrdemServico.logOS('001')
-    print(listLogUnique[0])
-    print(listLogUnique[1])
-    print(listLogUnique[2])
+    @staticmethod
+    def currentOsId():
+        with open(OrdemServico.CSV_PATH, 'r') as arquivo_csv:
+            OrdemServico.osCount = sum(1 for line in arquivo_csv) - 1

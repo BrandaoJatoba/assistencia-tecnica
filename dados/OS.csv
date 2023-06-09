@@ -1,2 +1,4 @@
 id;Client;Tecnico;Status;Descrição;Equipamento
-000001;123;1222;ABERTO;Equipamento Generico;OS aberto para testes internos.;
+000001;123;1222;EM_ANDAMENTO;Equipamento Generico;OS aberto para testes internos.
+000002;001.002.333-44;010;ABERTO;PC GAMER FODA;Não liga
+000003;1223;4141;SUSPENSO;Celular Nokia Tijolinho cor azul s/n 74207124790412709;tela n�o funciona, mas faz e recebe liga��es
