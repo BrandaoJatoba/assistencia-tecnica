@@ -43,7 +43,7 @@ class Cliente(dataAcess):
 
 ### Adição de clientes no banco de dados
     @staticmethod
-    def addSingleCliente(cliente):
+    def addSingleItem(cliente):
         lista = [cliente.nome, cliente.cpf, cliente.telefone]
         with open(Cliente.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')               

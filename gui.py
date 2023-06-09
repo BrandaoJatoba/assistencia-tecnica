@@ -2,11 +2,14 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 from tkinter import messagebox
+import time
 from cliente import Cliente
 from tecnico import Tecnico
 from ordemServico import OrdemServico
 from especialidade import Especialidade
 from log import Log
+from status import Status
+
 
 def BButton(master, text, command):
     style = ttk.Style()
@@ -53,7 +56,7 @@ def AddClientScreen():
         phone = phoneEntry.get()
         client = Cliente(name, cpf, phone)
         Cliente.listaCliente.append(client)
-        Cliente.addSingleCliente(client)
+        Cliente.addSingleItem(client)
         messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
         AddClientScreen.destroy()
         
@@ -98,7 +101,7 @@ def updateClientScreen(index):
         Cliente.delDataBase(cpf)
 
         Cliente.listaCliente.append(client)
-        Cliente.addSingleCliente(client)
+        Cliente.addSingleItem(client)
 
         messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
         clientToUpdateScreen.destroy()
@@ -361,41 +364,54 @@ def selectOS():
     osOpenButton = BButton(selectOS, text="Abrir OS Selecionada", command=openViewOS)
     osOpenButton.grid(row=2, column=1, padx=10, pady=5)
 
+def AttScreen(selectedOs):
+
+    def updateStatus():
+        pass
+
+    AttScreen = tk.Toplevel()
+    AttScreen.title("AT9000 Atualizar Status")
+    AttScreen.config(bg="#333", padx=25, pady=25)
+
+    StatusLabel = Label(AttScreen, text="Status", fg="#F5F5F5", bg="#333")
+    StatusLabel.grid(row=0, column=0, padx=10, pady=2)
+
+    StatusComboBox = ttk.Combobox(AttScreen)
+    StatusComboBox['value'] = [status.name for status in Status]
+    StatusComboBox.current(int(Status[selectedOs.status].value))
+    StatusComboBox.grid(row=0, column=1, padx=10, pady=2)
+
+    StatusButton = BButton(AttScreen, text="Atualizar", command=updateStatus)
+    StatusButton.grid(row=1, column=1, padx=10, pady=2)
+
+def NewComentScreen(selectedOs):
+        
+        def saveLog():
+            logText = newLogEntry.get("1.0",'end-1c')
+            savedTime = time.localtime(time.time())
+            timeString = time.strftime("%d/%m/%Y", savedTime)
+            Log.currentlogId()
+            log = Log((Log.logCount + 1), selectedOs.id, logText, timeString)
+            Log.listaDeLogs.append(log)
+            Log.addDataBase()
+            messagebox.showinfo('Log', 'Novo log salvo com sucesso')
+            NewComentScreen.destroy()
+
+        newLogScreen = tk.Toplevel()
+        newLogScreen.title("AT9000 Novo Comentario")
+        newLogScreen.config(bg="#333", padx=25, pady=25)
+
+        newLogLabel = Label(newLogScreen, text="Comentário", fg="#F5F5F5", bg="#333")
+        newLogLabel.grid(row=0, column=0, padx=10, pady=2, sticky=N)
+
+        newLogEntry = Text(newLogScreen, height=10 ,width=30)
+        newLogEntry.grid(row=0, column=1, padx=10, pady=2, sticky=S)
+
+        newLogButton = BButton(newLogScreen, text=("Adicionar Comentário"), command=saveLog)
+        newLogButton.grid(row=1, column=1, padx=10, pady=2, sticky=W)
+
 def ViewOS(selectedOs):
-    def NewComentScreen():
-        NewComentScreen = tk.Toplevel()
-        NewComentScreen.title("AT9000 Novo Comentario")
-        NewComentScreen.config(bg="#333", padx=25, pady=25)
-
-        NCLabel = Label(NewComentScreen, text="Comentário", fg="#F5F5F5", bg="#333")
-        NCLabel.grid(row=0, column=0, padx=10, pady=2, sticky=N)
-
-        NCEntry = Text(NewComentScreen, height=10 ,width=30)
-        NCEntry.grid(row=0, column=1, padx=10, pady=2, sticky=S)
-
-        NCButton = BButton(NewComentScreen, text=("Adicionar Comentário"), command=None)
-        NCButton.grid(row=1, column=1, padx=10, pady=2, sticky=W)
-
-        # def timestamp(self):
-        # savedTime = time.localtime(self.__timestamp)
-        # time_string = time.strftime("%d/%m/%Y, %H:%M:%S", savedTime)
-        # return time_string
-
-    def AttScreen():
-        AttScreen = tk.Toplevel()
-        AttScreen.title("AT9000 Atualizar Status")
-        AttScreen.config(bg="#333", padx=25, pady=25)
-
-        StatusLabel = Label(AttScreen, text="Status", fg="#F5F5F5", bg="#333")
-        StatusLabel.grid(row=0, column=0, padx=10, pady=2)
-
-        StatusComboBox = ttk.Combobox(AttScreen)
-        # Joia
-        StatusComboBox.grid(row=0, column=1, padx=10, pady=2)
-
-        StatusButton = BButton(AttScreen, text="Atualizar", command=None)
-        StatusButton.grid(row=1, column=1, padx=10, pady=2)
-    
+      
     ViewOSScreen = Tk()
     ViewOSScreen.title("AT9000 Visualizar OS")
     ViewOSScreen.config(bg="#333", padx=50, pady=50)
@@ -445,10 +461,10 @@ def ViewOS(selectedOs):
         ComentariosText.insert(END, str(comentario) + "\n")
     ComentariosText.config(state=DISABLED)
 
-    NewComentButton = BButton(ViewOSScreen, text=("Adicionar Comentário"), command=NewComentScreen)
+    NewComentButton = BButton(ViewOSScreen, text=("Adicionar Comentário"), command=lambda: NewComentScreen(selectedOs))
     NewComentButton.grid(row=6, column=1, padx=10, pady=2, sticky=W)
 
-    AttButton = BButton(ViewOSScreen, text=("Atualizar Status"), command=AttScreen)
+    AttButton = BButton(ViewOSScreen, text=("Atualizar Status"), command=lambda: AttScreen(selectedOs))
     AttButton.grid(row=6, column=1, padx=10, pady=2, sticky=E)
 
 if __name__ == "__main__":

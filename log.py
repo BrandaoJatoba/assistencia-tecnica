@@ -7,6 +7,7 @@ class Log(dataAcess):
     CSV_PATH = 'dados/log.csv'
 
     listaDeLogs = []
+    logCount = 0
 
     def __init__(self, id, idOS, comentario, timestamp) -> None:
         self.__id = id
@@ -36,25 +37,28 @@ class Log(dataAcess):
     @comentario.setter
     def comentario(self, comentario):
         self.__comentario = comentario
+    @timestamp.setter
+    def timestamp(self, timestamp):
+        self.__timestamp = timestamp
 ###########################################
 
 # Outros Métodos
 
     @staticmethod
-    def addDataBase(csvPath = CSV_PATH):
-        listLog = Log.listaDeLogs
-        for x in listLog:
+    def addDataBase():
+        for x in Log.listaDeLogs:
             id = x.id
             idOS = x.idOS
             comentario = x.comentario
-            with open(csvPath, 'a', newline='') as arquivo:
+            timestamp = x.timestamp
+            with open(Log.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')
-                log = [id, idOS, comentario]
+                log = [id, idOS, comentario, timestamp]
                 writer.writerow(log)
 
     @staticmethod
-    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = id 
-        with open(csvPath, 'r', newline='') as arquivo:
+    def delDataBase(x): #Sendo x = id 
+        with open(Log.CSV_PATH, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
@@ -66,45 +70,51 @@ class Log(dataAcess):
         lines.remove(lines[index])
 
         #Reescreverá o arquivo com o elemento desejado excluido
-        with open(csvPath, 'w', newline='') as arquivo:
+        with open(Log.CSV_PATH, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
-    def populate(csvPath = CSV_PATH):
-        with open(csvPath, 'r') as arquivo_csv:
+    def populate():
+        with open(Log.CSV_PATH, 'r') as arquivo_csv:
             arquivo_Log = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_Log):
                 if i > 0:
                     log = Log(line[0], line[1], line[2], line[3])
                     Log.listaDeLogs.append(log)
+        Log.currentlogId()
+
+    @staticmethod
+    def currentlogId():
+        with open(Log.CSV_PATH, 'r') as arquivo_csv:
+            Log.logCount = sum(1 for line in arquivo_csv)
 
     def __str__(self):
         return f"{self.timestamp}\n{self.comentario}"
     
 if __name__== "__main__":
-    
-    # Teste do método de adição
-    logTeste = Log(
-        '001', '001', 'Computador designado para o técnico menino da porteira.'
-    )
-    logTeste2 = Log(
-        '002', '001', 'Computador em questão apresenta falha na memória, necessário de uma nova.'
-    )
-    logTeste3 = Log(
-        '003', '002', 'Notebook designado para a técnica Barbie'
-     )
-    logTeste4 = Log(
-        '004', '001', 'Computador pronto para ser entregue.'
-     )
-    # Log.listaDeLogs.append(logTeste)
-    # Log.listaDeLogs.append(logTeste2)
-    # Log.listaDeLogs.append(logTeste3)
-    Log.listaDeLogs.append(logTeste4)
-    Log.addDataBase()
+    pass
+    # # Teste do método de adição
+    # logTeste = Log(
+    #     '001', '001', 'Computador designado para o técnico menino da porteira.'
+    # )
+    # logTeste2 = Log(
+    #     '002', '001', 'Computador em questão apresenta falha na memória, necessário de uma nova.'
+    # )
+    # logTeste3 = Log(
+    #     '003', '002', 'Notebook designado para a técnica Barbie'
+    #  )
+    # logTeste4 = Log(
+    #     '004', '001', 'Computador pronto para ser entregue.'
+    #  )
+    # # Log.listaDeLogs.append(logTeste)
+    # # Log.listaDeLogs.append(logTeste2)
+    # # Log.listaDeLogs.append(logTeste3)
+    # Log.listaDeLogs.append(logTeste4)
+    # Log.addDataBase()
 
-    #Teste do método de remoção
-    # Log.delDataBase('001')
+    # #Teste do método de remoção
+    # # Log.delDataBase('001')
 
-    #Teste do método de populate
-    # Log.populate()
+    # #Teste do método de populate
+    # # Log.populate()
