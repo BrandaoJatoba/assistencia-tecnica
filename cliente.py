@@ -87,11 +87,3 @@ class Cliente(dataAcess):
                 if i > 0:
                     client = Cliente(line[0], line[1], line[2])
                     Cliente.listaCliente.append(client)
-if __name__== "__main__":
-
-    Cliente.populate()
-    # print(Cliente.listaCliente)
-    # c1 = Cliente('teste', 'teste', 'teste')
-    # Cliente.addDataBase(c1)
-    # print(Cliente.listaCliente)
-    # Cliente.refreshDataBase()

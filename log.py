@@ -96,29 +96,3 @@ class Log(dataAcess):
     def __str__(self):
         return f"{self.timestamp}\n{self.comentario}"
     
-if __name__== "__main__":
-    pass
-    # # Teste do método de adição
-    # logTeste = Log(
-    #     '001', '001', 'Computador designado para o técnico menino da porteira.'
-    # )
-    # logTeste2 = Log(
-    #     '002', '001', 'Computador em questão apresenta falha na memória, necessário de uma nova.'
-    # )
-    # logTeste3 = Log(
-    #     '003', '002', 'Notebook designado para a técnica Barbie'
-    #  )
-    # logTeste4 = Log(
-    #     '004', '001', 'Computador pronto para ser entregue.'
-    #  )
-    # # Log.listaDeLogs.append(logTeste)
-    # # Log.listaDeLogs.append(logTeste2)
-    # # Log.listaDeLogs.append(logTeste3)
-    # Log.listaDeLogs.append(logTeste4)
-    # Log.refreshDataBase()
-
-    # #Teste do método de remoção
-    # # Log.delDataBase('001')
-
-    # #Teste do método de populate
-    # # Log.populate()

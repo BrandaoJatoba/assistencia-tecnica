@@ -54,8 +54,8 @@ class Tecnico(dataAcess):
 
     #Remoção de elementos do banco de dados
     @staticmethod
-    def delDataBase(x, csvPath = CSV_PATH): #Sendo x = CPF 
-        with open(csvPath, 'r', newline='') as arquivo:
+    def delDataBase(x): #Sendo x = CPF 
+        with open(Tecnico.CSV_PATH, 'r', newline='') as arquivo:
             reader = csv.reader(arquivo)
             lines = list(reader)
             index = 0
@@ -67,21 +67,15 @@ class Tecnico(dataAcess):
         lines.remove(lines[index])
 
         #Reescreverá o arquivo com o elemento desejado excluido
-        with open(csvPath, 'w', newline='') as arquivo:
+        with open(Tecnico.CSV_PATH, 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerows(lines)
 
     @staticmethod
-    def populate(csvPath = CSV_PATH):
-        with open(csvPath, 'r') as arquivo_csv:
+    def populate():
+        with open(Tecnico.CSV_PATH, 'r') as arquivo_csv:
             arquivo_tecnico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_tecnico):
                 if i > 0:
                     tec = Tecnico(line[0], line[1], line[2])
                     Tecnico.listaTecnico.append(tec)
-if __name__== "__main__":
-    Tecnico.populate()
-    print(Tecnico.listaTecnico)
-    print(Tecnico.listaTecnico[0].nome)
-    print(Tecnico.listaTecnico[0].matricula)
-    print(Tecnico.listaTecnico[0].especialidade)

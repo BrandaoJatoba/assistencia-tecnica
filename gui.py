@@ -470,9 +470,6 @@ def ViewOS(selectedOs):
     StatusLabel.grid(row=1, column=3, padx=10, pady=2, sticky=E)
     StatusText.grid(row=1, column=4, padx=10, pady=2, sticky=W)
 
-    # Divisiao = Label(ViewOSScreen, text="     ", fg="#F5F5F5", bg="#333")
-    # Divisiao.grid(row=2, column=3, padx=10, pady=10)
-
     EquipamentoLabel = Label(ViewOSScreen, text="Equipamento :", fg="#F5F5F5", bg="#333")
     EquipamentoText = Label(ViewOSScreen, text=selectedOs.equipamento, fg="#F5F5F5", bg="#333")
     EquipamentoLabel.grid(row=2, column=0, padx=10, pady=2, sticky=W)
@@ -500,6 +497,3 @@ def ViewOS(selectedOs):
 
     AttButton = BButton(ViewOSScreen, text=("Atualizar Status"), command=lambda: AttScreen(selectedOs))
     AttButton.grid(row=6, column=1, padx=10, pady=2, sticky=E)
-
-if __name__ == "__main__":
-    MenuScreen()
