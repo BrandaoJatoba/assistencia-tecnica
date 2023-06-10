@@ -9,7 +9,6 @@ from ordemServico import OrdemServico
 from especialidade import Especialidade
 from log import Log
 from status import Status
-import codecs
 
 
 def BButton(master, text, command):
@@ -244,7 +243,8 @@ def AddTecnicoScreen():
         nome = TecNomeEntry.get()
         matricula = TecCpfEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
-        tec = Tecnico(nome, matricula, especialidade)
+        is_active = True
+        tec = Tecnico(nome, matricula, especialidade, is_active)
         Tecnico.listaTecnico.append(tec)
         Tecnico.addDataBase(tec)
         messagebox.showinfo('Dados Salvos', 'Técnico adicionado com sucesso!')
@@ -350,9 +350,13 @@ def selectOS():
     def searchByCpf():
         cpf = searchBar.get()
         OSListbox.delete(0, END)
+        count = 0
         for os in OrdemServico.listaOS:
             if os.client == cpf:
+                count += 1
                 OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
+        if count < 1:
+            messagebox.showinfo('Error', 'Nenhuma OS encontrada com os dados fornecidos.')
     
     def openViewOS():
         osId = OSListbox.get(ANCHOR)

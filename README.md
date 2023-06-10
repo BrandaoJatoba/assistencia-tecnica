@@ -5,9 +5,7 @@
 
 ## Funcionalidades (TO DO)
 
-### Interface com usuário
-  Menus, inputs e etc
-### "Banco de dados" - Arquivo Local
-  File manegement
+### inserir Try Except block
+
 ### Fluxo de Trabalho - Documento de Design de Software
   Listar quais são todas as funcionalidades do sistema, como fazer cada coisa, limitações e objetivos gerais
