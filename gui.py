@@ -50,7 +50,8 @@ def ClientScreen():
 def AddClientScreen():
 
     def storeClientInMemory():
-####### place try except here
+        #attention here 
+        # check if entries are not empty
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
@@ -59,7 +60,6 @@ def AddClientScreen():
         Cliente.addDataBase(client)
         messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
         AddClientScreen.destroy()
-        
 
     AddClientScreen = tk.Toplevel()
     AddClientScreen.title("AT9000 Adicionar Cliente")
@@ -89,12 +89,11 @@ def AddClientScreen():
 def updateClientScreen(index):
 
     def updateClientInMemory():
-####### place try except here
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
         client = Cliente(name, cpf, phone)
-
+        # attention here
         for x in Cliente.listaCliente:
             if x.cpf == cpf:
                 Cliente.listaCliente.remove(x)
@@ -138,7 +137,7 @@ def updateClientScreen(index):
     clienButt.grid(row=3, column=0, columnspan=2, padx=15, pady=20)
 
 def selectClienteScreen():
-
+    # attention here add case if there is no selection
     def openUpdateClientScreen():
       indexTuple = clientesListbox.curselection()
       if len(indexTuple) != 0:
@@ -178,7 +177,8 @@ def Os2():
 def NovaOSScreen():
 
     def saveNewOs():
-        ####### place try except here
+        ####### attention here 
+        # check if it is empty selection or entries
         id = str(OrdemServico.osCount + 1).zfill(6)        
         client = ClientCombobox.get()
         client = client.split(" - ")        
@@ -200,14 +200,14 @@ def NovaOSScreen():
     NOsLabel = Label(NOsScreen, text="Selecionar Cliente", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=0, column=0, padx=10, pady=(2, 10))
 
-    ClientCombobox = ttk.Combobox(NOsScreen)
+    ClientCombobox = ttk.Combobox(NOsScreen, width=40)
     ClientCombobox['values'] = ["".join(x.cpf+" - "+x.nome) for x in Cliente.listaCliente]
     ClientCombobox.grid(row=1, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Selecionar Técnico", fg="#F5F5F5", bg="#333")
     NOsLabel.grid(row=2, column=0, padx=10, pady=2)
 
-    TecCombobox = ttk.Combobox(NOsScreen)
+    TecCombobox = ttk.Combobox(NOsScreen, width=40)
     TecCombobox['values'] = ["".join(tecnico.matricula+" - "+tecnico.nome) for tecnico in Tecnico.listaTecnico]
     TecCombobox.grid(row=3, column=0, padx=20, pady=2)
 
@@ -239,7 +239,8 @@ def TecnicoScreen():
 def AddTecnicoScreen():
 
     def storetTecInMemory():
-####### place try except here
+        ####### attention here
+        # place try except here
         nome = TecNomeEntry.get()
         matricula = TecCpfEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
@@ -303,7 +304,9 @@ def selectTecnicoScreen():
 def updateTecnicoScreen(index):
 
     def updateTecInMemory():
-####### place try except here
+        ####### place try except here
+        # atention here 
+        # check if entries are empty
         nome = TecNomeEntry.get()
         matricula = TecMatriculaEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
@@ -380,19 +383,22 @@ def selectOS():
     selectOS = tk.Toplevel()
     selectOS.title("AT9000 Selecionar Ordem de Serviço")
     selectOS.config(bg="#333", padx=50, pady=50)
+    selectOS.geometry("700x400")
+
+    OSListbox = Listbox(selectOS, width=60)
+    OSListbox.grid(row=1, column=0, padx=10, pady=10)
 
     searchBar = tk.Entry(selectOS, width=20)
-    searchBar.grid(row=0, column=1)
-
-    OSListbox = Listbox(selectOS, width=40)
-    OSListbox.grid(row=1, column=0, padx=10, pady=10)
+    searchBar.grid(row=0, column=2, padx=10, pady=10)
     
     osSearchButton = BButton(selectOS, text="Pesquisar OS por CPF", command=searchByCpf)
-    osSearchButton.grid(row=1, column=1)
+    osSearchButton.grid(row=1, column=2, sticky=tk.N, padx=5, pady=5)
+
     listAllButton = BButton(selectOS, text="Listar todas OS's", command=listAllOs)
-    listAllButton.grid(row=2, column=1)
+    listAllButton.grid(row=2, column=2, sticky=tk.N, padx=5, pady=5)
+
     osOpenButton = BButton(selectOS, text="Abrir OS Selecionada", command=openViewOS)
-    osOpenButton.grid(row=3, column=1)
+    osOpenButton.grid(row=3, column=2, sticky=tk.N, padx=5, pady=5)
 
 def ViewOS(selectedOs):
     def NewComentScreen(selectedOs):    
@@ -469,12 +475,22 @@ def ViewOS(selectedOs):
     CodigoText.grid(row=0, column=1, padx=10, pady=2, sticky=W)
 
     TecnicoLabel = Label(ViewOSScreen, text="Técnico :", fg="#F5F5F5", bg="#333")
-    TecnicoText = Label(ViewOSScreen, text=[tec.nome for tec in Tecnico.listaTecnico if tec.matricula == selectedOs.tecnico][0], fg="#F5F5F5", bg="#333")
+
+    try:
+        TecnicoText = Label(ViewOSScreen, text=[tec.nome for tec in Tecnico.listaTecnico if tec.matricula == selectedOs.tecnico][0], fg="#F5F5F5", bg="#333")
+    except:
+        TecnicoText = Label(ViewOSScreen, text="Não cadastrado no banco de dados", fg="#F5F5F5", bg="#333")
+
     TecnicoLabel.grid(row=0, column=3, padx=10, pady=2, sticky=E)
     TecnicoText.grid(row=0, column=4, padx=10, pady=2, sticky=W)
 
     ClienteLabel = Label(ViewOSScreen, text="Cliente :", fg="#F5F5F5", bg="#333")
-    ClienteText = Label(ViewOSScreen, text=[cliente.nome for cliente in Cliente.listaCliente if cliente.cpf == selectedOs.client][0], fg="#F5F5F5", bg="#333")
+    
+    try:
+        ClienteText = Label(ViewOSScreen, text=[cliente.nome for cliente in Cliente.listaCliente if cliente.cpf == selectedOs.client][0], fg="#F5F5F5", bg="#333")
+    except:
+        ClienteText = Label(ViewOSScreen, text="Não cadastrado no banco de dados", fg="#F5F5F5", bg="#333")
+
     ClienteLabel.grid(row=1, column=0, padx=10, pady=2, sticky=W)
     ClienteText.grid(row=1, column=1, padx=10, pady=2, sticky=W)
 
