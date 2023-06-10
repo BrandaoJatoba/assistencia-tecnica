@@ -358,6 +358,12 @@ def selectOS():
         if count < 1:
             messagebox.showinfo('Error', 'Nenhuma OS encontrada com os dados fornecidos.')
     
+    def listAllOs():
+        OSListbox.delete(0, END)
+        
+        for os in OrdemServico.listaOS:
+            OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
+        
     def openViewOS():
         osId = OSListbox.get(ANCHOR)
         if osId:
@@ -382,9 +388,11 @@ def selectOS():
     OSListbox.grid(row=1, column=0, padx=10, pady=10)
     
     osSearchButton = BButton(selectOS, text="Pesquisar OS por CPF", command=searchByCpf)
-    osSearchButton.grid(row=1, column=1, padx=10, pady=5)
+    osSearchButton.grid(row=1, column=1)
+    listAllButton = BButton(selectOS, text="Listar todas OS's", command=listAllOs)
+    listAllButton.grid(row=2, column=1)
     osOpenButton = BButton(selectOS, text="Abrir OS Selecionada", command=openViewOS)
-    osOpenButton.grid(row=2, column=1, padx=10, pady=5)
+    osOpenButton.grid(row=3, column=1)
 
 def ViewOS(selectedOs):
     def NewComentScreen(selectedOs):    
