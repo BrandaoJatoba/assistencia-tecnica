@@ -1,9 +1,8 @@
-Nome;Matricula;Especialidade
-Tata Werneck;007;COMPUTADORES
-Silvio Santos;008;CELULARES
-Barbie;010;CELULARES
-Tata Werneck;007;COMPUTADORES
-Silvio Santos;008;CELULARES
-Barbie;010;CELULARES
-Manolo;1222;COMPUTADORES
-Ernest;4141;CELULARES
+Nome;Matricula;Especialidade;Active
+Silvio Santos;008;CELULARES;True
+Barbie;010;CELULARES;True
+Silvio Santos;008;CELULARES;True
+Barbie;010;CELULARES;True
+Manolo;1222;COMPUTADORES;True
+Ernest;4141;CELULARES;True
+Tata Werneck,007,COMPUTADORES,False
