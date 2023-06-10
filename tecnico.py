@@ -100,13 +100,15 @@ class Tecnico(dataAcess):
                 else:
                     index += 1
             tec = lines[index][0].split(';')
-            lines.remove(lines[index])
-        #Nesta etapa iremos desativalo de fato
-        offTec = [tec[0], tec[1], tec[2], False]
+        offTec = [';'.join([tec[0], tec[1], tec[2], 'False'])]
+        lines.remove(lines[index])
+        # Nesta etapa iremos desativalo de fato
         with open(Tecnico.CSV_PATH, 'w', newline='') as arquivo:
-                writer = csv.writer(arquivo)
-                writer.writerows(lines)               
-                writer.writerow(offTec) 
+            writer = csv.writer(arquivo)
+            writer.writerows(lines)
+            writer.writerow(offTec)
+
        
 if __name__ == "__main__":
-    Tecnico.deactivate("007")
+    # Tecnico.deactivate('1222')
+    # Tecnico.deactivate('008')

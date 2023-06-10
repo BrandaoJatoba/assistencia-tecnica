@@ -1,8 +1,8 @@
 Nome;Matricula;Especialidade;Active
-Silvio Santos;008;CELULARES;True
 Barbie;010;CELULARES;True
 Silvio Santos;008;CELULARES;True
 Barbie;010;CELULARES;True
-Manolo;1222;COMPUTADORES;True
 Ernest;4141;CELULARES;True
 Tata Werneck;007;COMPUTADORES;False
+Manolo;1222;COMPUTADORES;False
+Silvio Santos;008;CELULARES;False
