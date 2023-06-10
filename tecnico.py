@@ -84,7 +84,7 @@ class Tecnico(dataAcess):
             arquivo_tecnico = csv.reader(arquivo_csv, delimiter = ';')
             for i, line in enumerate(arquivo_tecnico):
                 if i > 0:
-                    tec = Tecnico(line[0], line[1], line[2], line[3])
+                    tec = Tecnico(line[0], line[1], line[2], bool(line[3]))
                     Tecnico.listaTecnico.append(tec)
     
     @staticmethod
@@ -110,5 +110,6 @@ class Tecnico(dataAcess):
 
        
 if __name__ == "__main__":
-    # Tecnico.deactivate('1222')
-    # Tecnico.deactivate('008')
+    pass
+    Tecnico.populate()
+    print(type(Tecnico.listaTecnico[0].active))
