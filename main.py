@@ -5,9 +5,9 @@ if __name__ == "__main__":
 
 # Carregando estado do Banco de Dados
     try:
-        # try to access files
-        # if unsuccessful create file
-        # finally populate classes
+    # try to access files
+    # if unsuccessful create file
+    # finally populate classes
         
         Cliente.populate()
         Tecnico.populate()
@@ -15,10 +15,7 @@ if __name__ == "__main__":
         Log.populate()
 
     except:
-
         pass
-
     finally:  
-          
     # Iniciando Interface Gráfica
         MenuScreen()

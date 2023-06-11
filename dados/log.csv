@@ -7,3 +7,5 @@ id;idOS;Comentario;timestamp
 7;000001;Teste 2;09/06/2023
 8;000003;asd;09/06/2023
 9;000006;Distribuido para Barbie. Na fila de trabalho.;10/06/2023
+10;000002;A;10/06/2023
+11;000006;Teste de codifica\xe7\xe3o UTF para coment\xe1rios. N\xe3o sair\xe1 com erros de acentua\xe7\xe3o.\n\nPoss\xedvel teste de newline.;10/06/2023

@@ -45,7 +45,7 @@ class Tecnico(dataAcess):
     #Adição de tecnicos no banco de dados
     @staticmethod
     def addDataBase(tec):
-        lista = [tec.nome, tec.matricula, tec.especialidade]
+        lista = [tec.nome, tec.matricula, tec.especialidade, tec.active]
         with open(Tecnico.CSV_PATH, 'a', newline='') as arquivo:
                 writer = csv.writer(arquivo, delimiter= ';')               
                 writer.writerow(lista)  

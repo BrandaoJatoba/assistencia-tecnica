@@ -50,16 +50,17 @@ def ClientScreen():
 def AddClientScreen():
 
     def storeClientInMemory():
-        #attention here 
-        # check if entries are not empty
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
-        client = Cliente(name, cpf, phone)
-        Cliente.listaCliente.append(client)
-        Cliente.addDataBase(client)
-        messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
-        AddClientScreen.destroy()
+        if (name == "") or (cpf == "") or (phone == ""):
+            messagebox.showerror('Erro', 'Campos do formulário não podem estar vazios.')
+        else:
+            client = Cliente(name, cpf, phone)
+            Cliente.listaCliente.append(client)
+            Cliente.addDataBase(client)
+            messagebox.showinfo('Dados Salvos', 'Cliente adicionado com sucesso!')
+            AddClientScreen.destroy()
 
     AddClientScreen = tk.Toplevel()
     AddClientScreen.title("AT9000 Adicionar Cliente")
@@ -92,18 +93,18 @@ def updateClientScreen(index):
         name = nameEntry.get()
         cpf = cpfEntry.get()
         phone = phoneEntry.get()
-        client = Cliente(name, cpf, phone)
-        # attention here
-        for x in Cliente.listaCliente:
-            if x.cpf == cpf:
-                Cliente.listaCliente.remove(x)
-        Cliente.delDataBase(cpf)
-
-        Cliente.listaCliente.append(client)
-        Cliente.addDataBase(client)
-
-        messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
-        clientToUpdateScreen.destroy()
+        if (name == "") or (cpf == "") or (phone == ""):
+            messagebox.showerror('Erro', 'Campos do formulário não podem estar vazios.')
+        else:
+            client = Cliente(name, cpf, phone)
+            for x in Cliente.listaCliente:
+                if x.cpf == cpf:
+                    Cliente.listaCliente.remove(x)
+            Cliente.delDataBase(cpf)
+            Cliente.listaCliente.append(client)
+            Cliente.addDataBase(client)
+            messagebox.showinfo('Dados Salvos', 'Cliente atualizado com sucesso!')
+            clientToUpdateScreen.destroy()
         
     clientToUpdate = Cliente.listaCliente[index]
 
@@ -177,8 +178,7 @@ def Os2():
 def NovaOSScreen():
 
     def saveNewOs():
-        ####### attention here 
-        # check if it is empty selection or entries
+        OrdemServico.currentOsId()
         id = str(OrdemServico.osCount + 1).zfill(6)        
         client = ClientCombobox.get()
         client = client.split(" - ")        
@@ -187,11 +187,14 @@ def NovaOSScreen():
         status = Status.ABERTO.name
         equipamento = equipamentDescriptionEntry.get("1.0",'end-1c').encode("unicode_escape").decode("utf-8")
         descricao = issueDescriptionEntry.get("1.0",'end-1c').encode("unicode_escape").decode("utf-8")
-        os = OrdemServico(id, client[0], tecnico[0], status, equipamento, descricao)
-        OrdemServico.listaOS.append(os)
-        OrdemServico.addDataBase(os)
-        messagebox.showinfo('Dados Salvos', 'Ordem de Serviço Aberta com sucesso!')
-        NOsScreen.destroy()
+        if (client == "") or (tecnico == "") or (equipamento == "") or (descricao == ""):
+            messagebox.showerror('Erro', 'Campos do formulário não podem estar vazios.')
+        else:
+            os = OrdemServico(id, client[0], tecnico[0], status, equipamento, descricao)
+            OrdemServico.listaOS.append(os)
+            OrdemServico.addDataBase(os)
+            messagebox.showinfo('Dados Salvos', 'Ordem de Serviço Aberta com sucesso!')
+            NOsScreen.destroy()
 
     NOsScreen = tk.Toplevel()
     NOsScreen.title("AT9000 Nova OS")
@@ -239,17 +242,18 @@ def TecnicoScreen():
 def AddTecnicoScreen():
 
     def storetTecInMemory():
-        ####### attention here
-        # place try except here
         nome = TecNomeEntry.get()
         matricula = TecCpfEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
         is_active = True
-        tec = Tecnico(nome, matricula, especialidade, is_active)
-        Tecnico.listaTecnico.append(tec)
-        Tecnico.addDataBase(tec)
-        messagebox.showinfo('Dados Salvos', 'Técnico adicionado com sucesso!')
-        addTecnicoScreen.destroy()
+        if (nome == "") or (matricula == "") or (especialidade == ""):
+            messagebox.showerror('Erro', 'Campos do formulário não podem estar vazios.')
+        else:
+            tec = Tecnico(nome, matricula, especialidade, is_active)
+            Tecnico.listaTecnico.append(tec)
+            Tecnico.addDataBase(tec)
+            messagebox.showinfo('Dados Salvos', 'Técnico adicionado com sucesso!')
+            addTecnicoScreen.destroy()
 
     addTecnicoScreen = tk.Toplevel()
     addTecnicoScreen.title("AT9000 Adicionar Tecnicos")
@@ -304,22 +308,24 @@ def selectTecnicoScreen():
 def updateTecnicoScreen(index):
 
     def updateTecInMemory():
-        ####### place try except here
-        # atention here 
-        # check if entries are empty
+
         nome = TecNomeEntry.get()
         matricula = TecMatriculaEntry.get()
         especialidade = TecEspecialidadeCombobox.get()
-        tec = Tecnico(nome, matricula, especialidade)
-        for x in Tecnico.listaTecnico:
-            if x.matricula == matricula:
-                Tecnico.listaTecnico.remove(x)
+        
+        if (nome == "") or (matricula == "") or (especialidade == ""):
+            messagebox.showerror('Erro', 'Campos do formulário não podem estar vazios.')
+        else:
+            tec = Tecnico(nome, matricula, especialidade)
+            for x in Tecnico.listaTecnico:
+                if x.matricula == matricula:
+                    Tecnico.listaTecnico.remove(x)
 
-        Tecnico.delDataBase(matricula)
-        Tecnico.listaTecnico.append(tec)
-        Tecnico.refreshDataBaseTec(Tecnico.listaTecnico)
-        messagebox.showinfo('Dados Salvos', 'Técnico atualizado com sucesso!')
-        updateTecnicoScreen.destroy()     
+            Tecnico.delDataBase(matricula)
+            Tecnico.listaTecnico.append(tec)
+            Tecnico.addDataBase(tec)
+            messagebox.showinfo('Dados Salvos', 'Técnico atualizado com sucesso!')
+            tecToUpdate.destroy()     
 
     tecToUpdate = Tecnico.listaTecnico[index]
 
@@ -352,18 +358,18 @@ def updateTecnicoScreen(index):
 def selectOS():
     def searchByCpf():
         cpf = searchBar.get()
-        OSListbox.delete(0, END)
-        count = 0
-        for os in OrdemServico.listaOS:
-            if os.client == cpf:
-                count += 1
-                OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
-        if count < 1:
-            messagebox.showinfo('Error', 'Nenhuma OS encontrada com os dados fornecidos.')
+        if cpf != "":
+            OSListbox.delete(0, END)
+            count = 0
+            for os in OrdemServico.listaOS:
+                if os.client == cpf:
+                    count += 1
+                    OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
+            if count < 1:
+                messagebox.showinfo('Error', 'Nenhuma OS encontrada com os dados fornecidos.')
     
     def listAllOs():
-        OSListbox.delete(0, END)
-        
+        OSListbox.delete(0, END)        
         for os in OrdemServico.listaOS:
             OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
         
@@ -378,7 +384,7 @@ def selectOS():
                 os = selectedOs[0]
             ViewOS(os)
         else:
-            messagebox.showinfo('Error', 'Nenhuma OS selecionada')
+            messagebox.showerror('Error', 'Nenhuma OS selecionada')
     
     selectOS = tk.Toplevel()
     selectOS.title("AT9000 Selecionar Ordem de Serviço")
@@ -401,17 +407,21 @@ def selectOS():
     osOpenButton.grid(row=3, column=2, sticky=tk.N, padx=5, pady=5)
 
 def ViewOS(selectedOs):
+    
     def NewComentScreen(selectedOs):    
         def saveLog():
-            logText = newLogEntry.get("1.0",'end-1c')
+            logText = newLogEntry.get("1.0",'end-1c').encode("unicode_escape").decode("utf-8")
             savedTime = time.localtime(time.time())
             timeString = time.strftime("%d/%m/%Y", savedTime)
             Log.currentlogId()
-            log = Log((Log.logCount + 1), selectedOs.id, logText, timeString)
-            Log.listaDeLogs.append(log)
-            Log.addDataBase(log)
-            newLogScreen.destroy()
-            messagebox.showinfo('Log', 'Novo log salvo com sucesso')
+            if (logText == ""):
+                messagebox.showerror('Error', 'Comentário Vazio. Insira comentário ou feche a janela.')
+            else: 
+                log = Log((Log.logCount + 1), selectedOs.id, logText, timeString)
+                Log.listaDeLogs.append(log)
+                Log.addDataBase(log)
+                newLogScreen.destroy()
+                messagebox.showinfo('Log', 'Novo log salvo com sucesso')
 
         newLogScreen = tk.Toplevel()
         newLogScreen.title("AT9000 Novo Comentario")
@@ -432,7 +442,7 @@ def ViewOS(selectedOs):
         ComentariosText.delete('1.0', END)
         comentarios = [log for log in Log.listaDeLogs if log.idOS == selectedOs.id]
         for comentario in comentarios:
-            ComentariosText.insert(END, str(comentario) + "\n")
+            ComentariosText.insert(END, str(comentario).encode("utf-8").decode("unicode_escape") + "\n")
         ComentariosText.config(state=DISABLED)
 
     def AttScreen(selectedOs):
