@@ -107,9 +107,3 @@ class Tecnico(dataAcess):
             writer = csv.writer(arquivo)
             writer.writerows(lines)
             writer.writerow(offTec)
-
-       
-if __name__ == "__main__":
-    pass
-    Tecnico.populate()
-    print(type(Tecnico.listaTecnico[0].active))

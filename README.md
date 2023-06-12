@@ -6,4 +6,6 @@
 ## Funcionalidades (TO DO)
 
 ###  Adicionar no GUI a opção de desativar um técnico
-###  Adicionar no GUI a opção de apagar um item do banco de dados
+###  Adicionar no GUI a opção de apagar um item do banco de dados (comentário de uma ordem de serviço, por exemplo)
+###  Controle do input de CPF válido
+###  Transformar GUI de Funções para Classes

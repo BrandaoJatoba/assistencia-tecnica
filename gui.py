@@ -325,7 +325,7 @@ def updateTecnicoScreen(index):
             Tecnico.listaTecnico.append(tec)
             Tecnico.addDataBase(tec)
             messagebox.showinfo('Dados Salvos', 'Técnico atualizado com sucesso!')
-            tecToUpdate.destroy()     
+            addTecnicoScreen.destroy()     
 
     tecToUpdate = Tecnico.listaTecnico[index]
 
@@ -371,7 +371,7 @@ def selectOS():
     def listAllOs():
         OSListbox.delete(0, END)        
         for os in OrdemServico.listaOS:
-            OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+os.equipamento))
+            OSListbox.insert(tk.END, "".join("#"+os.id+" "+os.status+" - "+str(os.equipamento).encode().decode("unicode_escape")))
         
     def openViewOS():
         osId = OSListbox.get(ANCHOR)
