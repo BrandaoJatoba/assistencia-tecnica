@@ -211,7 +211,7 @@ def NovaOSScreen():
     NOsLabel.grid(row=2, column=0, padx=10, pady=2)
 
     TecCombobox = ttk.Combobox(NOsScreen, width=40)
-    TecCombobox['values'] = ["".join(tecnico.matricula+" - "+tecnico.nome) for tecnico in Tecnico.listaTecnico]
+    TecCombobox['values'] = ["".join(tecnico.matricula+" - "+tecnico.nome + " ("+tecnico.especialidade+")") for tecnico in Tecnico.listaTecnico]
     TecCombobox.grid(row=3, column=0, padx=20, pady=2)
 
     NOsLabel = Label(NOsScreen, text="Descrição", fg="#F5F5F5", bg="#333")

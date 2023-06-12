@@ -5,8 +5,5 @@
 
 ## Funcionalidades (TO DO)
 
-### inserir Try Except block - oK
-### checar se formulário não está vazio ao cadastrar/atualizar cliente, técnico e OS
-
-### Fluxo de Trabalho - Documento de Design de Software
-  Listar quais são todas as funcionalidades do sistema, como fazer cada coisa, limitações e objetivos gerais
+###  Adicionar no GUI a opção de desativar um técnico
+###  Adicionar no GUI a opção de apagar um item do banco de dados
