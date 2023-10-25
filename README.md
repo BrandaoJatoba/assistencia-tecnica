@@ -20,3 +20,10 @@ Neste sistema, a função principal será o cadastro de Ordens de Serviço com d
 Os técnicos serão separados conforme suas especialidades, seja em telefones e tablets ou computadores e notebooks, além de suas credenciais. 
 Os clientes precisarão ser cadastrados no sistema, sendo fornecido os seguintes dados: nome, CPF, número de telefone e o equipamento. 
 Os equipamentos também serão cadastrados, sendo registrados os respectivos donos, técnicos responsáveis e número de série.
+
+## 3. Funcionalidades não implementadas
+
+###  Na GUI, a opção de desativar um técnico
+###  Na GUI, a opção de apagar um item do banco de dados (comentário de uma ordem de serviço, por exemplo)
+###  Filtragem de input de CPF válido
+###  GUI encontra-se em funções, quando poderiam ser Classes.
